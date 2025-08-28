@@ -1,0 +1,54 @@
+Proyecto Páginas Web
+Dentro del curso de Páginas Web, se dan contenidos suficientes para que los estudiantes
+puedan resolver problemas de la vida real, aplicando los conocimientos adquiridos durante
+cada una de las clases. Por lo tanto se plantea un problema de un sistema real, para que
+desde este momento los estudiantes puedan observar cómo se trabaja realmente con un
+sistema.
+El proyecto consistirá en realizar un sitio web utilizando herramientas actualizadas, este
+proyecto estará dividido en 3 fases importantes, que los estudiantes deberán ir completando,
+para que al finalizar el semestre ellos puedan hacer la presentación final del proyecto, que
+ellos han implementado.
+Fase 1
+La primera fase es la fase fundamental ya que en este se realizará el análisis inicial para
+poder desarrollar el sistema, lo que se requiere que se presente en esta fase será:
+Propuesta
+Al momento de que los estudiantes tengan los requerimientos necesarios, podrán hacer una
+evaluación de estos y realizar una propuesta válida. En este documento se debe de
+presentar lo siguiente:
+1. Identificación del Problema.
+2. Propuesta del sitio, aquí se deberá de incluir toda la información de lo que se
+pretende hacer para resolver el problema, especificando las herramientas o
+métodos que se utilizarán para el desarrollo.
+Diseño de la Base de datos
+Deberá presentarse un diagrama donde se identifiquen las entidades y relaciones dentro de
+la Base de Datos, las cuales conformarán un Diagrama Relacional completo.
+Interface Gráfica
+Presentación de los diferentes templates que se usarán para el proyecto que se realizará.
+UNIVERSIDAD MARIANO GÁLVEZ
+DESARROLLO WEB
+Fase 2
+Desarrollo de la Aplicación 40%
+Se deberá de presentar un avance del 40% de los módulos de la aplicación, los cuales
+deberán de funcionar correctamente para las pruebas. Ingresos de datos, edición, etc.
+Fase 3
+Presentación final
+Para la presentación final debe de tener los siguiente aspectos
+1. Repositorio GIT
+2. Dirección donde está alojado su proyecto
+3. Documentación
+4. El sitio deberá de ser completamente RESPONSIVE DESIGN
+Calificación:
+Actividades Ponderación Fecha
+Fase 1 (Propuesta) 1 puntos 28/08/25
+Fase 1 (Diseño) 5 puntos 04/09/25
+Fase 2 4 puntos 02/10/25
+Fase 3 15 puntos 04/11/25 y 06/11/25
+Algunas consideraciones:
+Se debe de tener presente lo siguiente:
+1. No se permitirán proyectos copiados, ya que se penalizará la calificación del mismo
+seriamente.
+2. Todos los estudiantes del grupo deberán estar informados de cada etapa de
+desarrollo y trabajar en las mismas, ya que al momento de presentar cada fase, la
+calificación dependerá de esto. SI ALGÚN ESTUDIANTE NO SE PRESENTA EN LA
+ENTREGA DE CADA FASE, NO TENDRÁ NOTA
+3. Debe de utilizarse GIT para poder administrar su proyecto
