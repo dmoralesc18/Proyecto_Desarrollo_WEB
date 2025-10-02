@@ -15,6 +15,9 @@ class MaquinariaEquipo(models.Model):
     class Meta:
         managed = False
         db_table = 'maquinaria_equipo'
+    
+    def __str__(self):
+        return self.nombre
 
 class Alquiler(models.Model):
     id_equipo = models.ForeignKey(MaquinariaEquipo, models.DO_NOTHING, db_column='id_equipo')
@@ -30,4 +33,6 @@ class Alquiler(models.Model):
     class Meta:
         managed = False
         db_table = 'alquiler'
-
+    
+    def __str__(self):
+        return f"Rental {self.id_alquiler} - {self.id_equipo.nombre}"

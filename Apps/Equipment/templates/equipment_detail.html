@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1000px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Equipment Detail</h5>
+                <a href="{% url 'equipment_update' equipo.id_equipo %}" class="btn btn-warning">
+                    <i class="bx bx-edit"></i> Edit
+                </a>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="200">ID:</th>
+                        <td>{{ equipo.id_equipo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name:</th>
+                        <td>{{ equipo.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type:</th>
+                        <td>
+                            {% if equipo.tipo == 'Propio' %}
+                                <span class="badge bg-primary">{{ equipo.tipo }}</span>
+                            {% elif equipo.tipo == 'Alquilado' %}
+                                <span class="badge bg-warning">{{ equipo.tipo }}</span>
+                            {% else %}
+                                {{ equipo.tipo|default:"-" }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Status:</th>
+                        <td>
+                            {% if equipo.estado == 'Disponible' %}
+                                <span class="badge bg-success">{{ equipo.estado }}</span>
+                            {% elif equipo.estado == 'En Uso' %}
+                                <span class="badge bg-info">{{ equipo.estado }}</span>
+                            {% elif equipo.estado == 'En Mantenimiento' %}
+                                <span class="badge bg-danger">{{ equipo.estado }}</span>
+                            {% else %}
+                                {{ equipo.estado|default:"-" }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+                <a href="{% url 'equipmentapp' %}" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
