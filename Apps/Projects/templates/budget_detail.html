@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1000px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Budget Detail</h5>
+                <a href="{% url 'budget_update' presupuesto.id_presupuesto %}" class="btn btn-warning">
+                    <i class="bx bx-edit"></i> Edit
+                </a>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="200">ID:</th>
+                        <td>{{ presupuesto.id_presupuesto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Project:</th>
+                        <td>{{ presupuesto.id_proyecto.nombre_proyecto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount:</th>
+                        <td>${{ presupuesto.monto_total|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description:</th>
+                        <td>{{ presupuesto.descripcion|default:"-" }}</td>
+                    </tr>
+                </table>
+                <a href="{% url 'projectsapp' %}" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

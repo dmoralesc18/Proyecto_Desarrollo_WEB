@@ -18,6 +18,9 @@ class Proyecto(models.Model):
         managed = False
         db_table = 'proyecto'
 
+    def __str__(self):
+        return self.nombre_proyecto
+
 
 class Presupuesto(models.Model):
     id_presupuesto = models.AutoField(primary_key=True)
@@ -30,3 +33,6 @@ class Presupuesto(models.Model):
     class Meta:
         managed = False
         db_table = 'presupuesto'
+
+    def __str__(self):
+        return f"Budget {self.id_presupuesto} - ${self.monto_total}"

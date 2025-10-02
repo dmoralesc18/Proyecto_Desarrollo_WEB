@@ -1,4 +1,124 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<h1>Projects Page</h1>
+    <!-- TABLA DE PROYECTOS -->
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1200px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Projects</h5>
+                <a href="{% url 'project_create' %}" class="btn btn-primary btn-sm">
+                    <i class="bx bx-plus"></i> New Project
+                </a>
+            </div>
+            <div class="card-body py-2">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 8%;">ID</th>
+                                <th style="width: 25%;">PROJECT NAME</th>
+                                <th style="width: 20%;">CLIENT</th>
+                                <th style="width: 12%;">START DATE</th>
+                                <th style="width: 10%;">STATUS</th>
+                                <th style="width: 25%;">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for proyecto in proyectos %}
+                            <tr>
+                                <td>{{ proyecto.id_proyecto }}</td>
+                                <td>{{ proyecto.nombre_proyecto }}</td>
+                                <td>{{ proyecto.id_cliente.nombre_cliente }}</td>
+                                <td>{{ proyecto.fecha_inicio|date:"Y-m-d" }}</td>
+                                <td>
+                                    {% if proyecto.estado == 'Completado' %}
+                                        <span class="badge bg-success">{{ proyecto.estado }}</span>
+                                    {% elif proyecto.estado == 'En Progreso' %}
+                                        <span class="badge bg-primary">{{ proyecto.estado }}</span>
+                                    {% elif proyecto.estado == 'Planificación' %}
+                                        <span class="badge bg-info">{{ proyecto.estado }}</span>
+                                    {% elif proyecto.estado == 'Cancelado' %}
+                                        <span class="badge bg-danger">{{ proyecto.estado }}</span>
+                                    {% elif proyecto.estado == 'En Espera' %}
+                                        <span class="badge bg-warning">{{ proyecto.estado }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ proyecto.estado|default:"-" }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'project_detail' proyecto.id_proyecto %}" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+                                    <a href="{% url 'project_update' proyecto.id_proyecto %}" class="btn btn-sm btn-warning">
+                                        <i class="bx bx-edit"></i>
+                                    </a>
+                                    <a href="{% url 'project_delete' proyecto.id_proyecto %}" class="btn btn-sm btn-danger">
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No projects registered</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA DE PRESUPUESTOS -->
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1200px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Budgets</h5>
+                <a href="{% url 'budget_create' %}" class="btn btn-success btn-sm">
+                    <i class="bx bx-plus"></i> New Budget
+                </a>
+            </div>
+            <div class="card-body py-2">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 8%;">ID</th>
+                                <th style="width: 30%;">PROJECT</th>
+                                <th style="width: 15%;">TOTAL AMOUNT</th>
+                                <th style="width: 27%;">DESCRIPTION</th>
+                                <th style="width: 20%;">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for presupuesto in presupuestos %}
+                            <tr>
+                                <td>{{ presupuesto.id_presupuesto }}</td>
+                                <td>{{ presupuesto.id_proyecto.nombre_proyecto }}</td>
+                                <td>${{ presupuesto.monto_total|floatformat:2 }}</td>
+                                <td>{{ presupuesto.descripcion|truncatewords:5|default:"-" }}</td>
+                                <td>
+                                    <a href="{% url 'budget_detail' presupuesto.id_presupuesto %}" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+                                    <a href="{% url 'budget_update' presupuesto.id_presupuesto %}" class="btn btn-sm btn-warning">
+                                        <i class="bx bx-edit"></i>
+                                    </a>
+                                    <a href="{% url 'budget_delete' presupuesto.id_presupuesto %}" class="btn btn-sm btn-danger">
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No budgets registered</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

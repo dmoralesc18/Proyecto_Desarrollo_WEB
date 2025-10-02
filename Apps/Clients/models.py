@@ -13,3 +13,6 @@ class Cliente(models.Model):
     class Meta:
         managed = False
         db_table = 'cliente'
+
+    def __str__(self):
+        return self.nombre_cliente
