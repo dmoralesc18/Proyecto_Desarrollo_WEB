@@ -15,6 +15,9 @@ class Subcontratista(models.Model):
     class Meta:
         managed = False
         db_table = 'subcontratista'
+    
+    def __str__(self):
+        return self.nombre
 
 class Contrato(models.Model):
     id_contrato = models.AutoField(primary_key=True)
@@ -29,3 +32,6 @@ class Contrato(models.Model):
     class Meta:
         managed = False
         db_table = 'contrato'
+
+    def __str__(self):
+        return f"Contract {self.id_contrato} - {self.id_subcontratista.nombre}"
