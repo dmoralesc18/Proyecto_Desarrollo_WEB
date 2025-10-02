@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1000px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Document Detail</h5>
+                <a href="{% url 'documents:document_update' documento.id_documento %}" class="btn btn-warning">
+                    <i class="bx bx-edit"></i> Edit
+                </a>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="200">ID:</th>
+                        <td>{{ documento.id_documento }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type:</th>
+                        <td>{{ documento.tipo|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Version:</th>
+                        <td>{{ documento.version|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Project:</th>
+                        <td>{{ documento.id_proyecto.nombre_proyecto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Upload Date:</th>
+                        <td>{{ documento.fecha_carga|date:"Y-m-d" }}</td>
+                    </tr>
+                </table>
+                <a href="{% url 'documents:documentsapp' %}" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

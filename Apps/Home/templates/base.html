@@ -132,7 +132,7 @@
             <!-- Documents -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Documents</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'documentsapp' %}active{% endif %}">
-              <a href="{% url 'documentsapp' %}" class="menu-link">
+              <a href="{% url 'documents:documentsapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Documents</div>
               </a>
