@@ -53,4 +53,3 @@ class PruebaCalidad(models.Model):
     class Meta:
         managed = False
         db_table = 'prueba_calidad'
-

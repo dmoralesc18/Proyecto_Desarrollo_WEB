@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1200px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Incidents</h5>
+                <div>
+                    <a href="{% url 'quality:incidente_create' %}" class="btn btn-primary btn-sm">
+                        <i class="bx bx-plus"></i> New Incident
+                    </a>
+                    <a href="{% url 'quality:qualityapp' %}" class="btn btn-secondary btn-sm">
+                        <i class="bx bx-arrow-back"></i> Back
+                    </a>
+                </div>
+            </div>
+            <div class="card-body py-2">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 8%;">ID</th>
+                                <th style="width: 30%;">DESCRIPTION</th>
+                                <th style="width: 12%;">SEVERITY</th>
+                                <th style="width: 15%;">DATE</th>
+                                <th style="width: 20%;">PROJECT</th>
+                                <th style="width: 15%;">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for incidente in incidentes %}
+                            <tr>
+                                <td>{{ incidente.id_incidente }}</td>
+                                <td>{{ incidente.descripcion|truncatewords:10 }}</td>
+                                <td>
+                                    {% if incidente.gravedad == "Baja" %}
+                                        <span class="badge bg-info">{{ incidente.gravedad }}</span>
+                                    {% elif incidente.gravedad == "Media" %}
+                                        <span class="badge bg-warning">{{ incidente.gravedad }}</span>
+                                    {% elif incidente.gravedad == "Alta" %}
+                                        <span class="badge bg-danger">{{ incidente.gravedad }}</span>
+                                    {% elif incidente.gravedad == "Crítica" %}
+                                        <span class="badge bg-dark">{{ incidente.gravedad }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ incidente.gravedad|default:"-" }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ incidente.fecha|date:"Y-m-d" }}</td>
+                                <td>{{ incidente.id_proyecto.nombre_proyecto }}</td>
+                                <td>
+                                    <a href="{% url 'quality:incidente_detail' incidente.id_incidente %}" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+                                    <a href="{% url 'quality:incidente_update' incidente.id_incidente %}" class="btn btn-sm btn-warning">
+                                        <i class="bx bx-edit"></i>
+                                    </a>
+                                    <a href="{% url 'quality:incidente_delete' incidente.id_incidente %}" class="btn btn-sm btn-danger">
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No incidents registered</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

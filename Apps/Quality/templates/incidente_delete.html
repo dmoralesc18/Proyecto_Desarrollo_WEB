@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1000px;">
+            <div class="card-header">
+                <h5 class="mb-0 text-danger">Delete Incident</h5>
+            </div>
+            <div class="card-body">
+                <p>Are you sure you want to delete this incident?</p>
+                <ul>
+                    <li><strong>Description:</strong> {{ incidente.descripcion|truncatewords:20 }}</li>
+                    <li><strong>Severity:</strong> {{ incidente.gravedad|default:"-" }}</li>
+                    <li><strong>Date:</strong> {{ incidente.fecha|date:"Y-m-d" }}</li>
+                    <li><strong>Project:</strong> {{ incidente.id_proyecto.nombre_proyecto }}</li>
+                </ul>
+                <p class="text-danger">This action cannot be undone.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a href="{% url 'quality:incidente_list' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

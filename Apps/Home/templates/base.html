@@ -97,7 +97,7 @@
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Projects</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'projectsapp' %}active{% endif %}">
               <a href="{% url 'projectsapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-menu"></i>
                 <div data-i18n="Analytics"> Projects</div>
               </a>
             </li>
@@ -105,7 +105,7 @@
             <!-- Forms & Tables -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'qualityapp' %}active{% endif %}">
-              <a href="{% url 'qualityapp' %}" class="menu-link">
+              <a href="{% url 'quality:qualityapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Quality</div>
               </a>
