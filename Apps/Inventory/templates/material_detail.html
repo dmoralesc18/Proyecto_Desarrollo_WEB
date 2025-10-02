@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1000px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Material Detail</h5>
+                <a href="{% url 'material_update' material.id_material %}" class="btn btn-warning">
+                    <i class="bx bx-edit"></i> Edit
+                </a>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="200">ID:</th>
+                        <td>{{ material.id_material }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name:</th>
+                        <td>{{ material.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Unit:</th>
+                        <td>{{ material.unidad }}</td>
+                    </tr>
+                </table>
+
+                <!-- Proveedores que suministran este material -->
+                <hr>
+                <h6 class="mt-3 mb-3">Suppliers</h6>
+                {% if proveedores_material %}
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Supplier</th>
+                                <th>Unit Price</th>
+                                <th>Delivery Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pm in proveedores_material %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'proveedor_detail' pm.id_proveedor.id_proveedor %}">
+                                        {{ pm.id_proveedor.nombre }}
+                                    </a>
+                                </td>
+                                <td>${{ pm.precio_unitario|floatformat:2|default:"-" }}</td>
+                                <td>{{ pm.tiempo_entrega|default:"-" }} days</td>
+                                <td>
+                                    <a href="{% url 'proveedor_detail' pm.id_proveedor.id_proveedor %}" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No suppliers associated with this material.</p>
+                {% endif %}
+
+                <!-- Inventarios que tienen este material -->
+                <hr>
+                <h6 class="mt-3 mb-3">Inventories with this Material</h6>
+                {% if inventarios_material %}
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Inventory ID</th>
+                                <th>Project</th>
+                                <th>Location</th>
+                                <th>Quantity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for im in inventarios_material %}
+                            <tr>
+                                <td>{{ im.id_inventario.id_inventario }}</td>
+                                <td>{{ im.id_inventario.id_proyecto.nombre_proyecto }}</td>
+                                <td>{{ im.id_inventario.ubicacion|default:"-" }}</td>
+                                <td>{{ im.cantidad }} {{ material.unidad }}</td>
+                                <td>
+                                    <a href="{% url 'inventario_detail' im.id_inventario.id_inventario %}" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">This material is not in any inventory.</p>
+                {% endif %}
+
+                <a href="{% url 'inventoryapp' %}" class="btn btn-secondary mt-3">Back</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

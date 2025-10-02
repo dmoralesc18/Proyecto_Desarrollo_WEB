@@ -2,5 +2,163 @@
 {% load static %}
 
 {% block content %}
-<h1>Inventory Page</h1>
+    <!-- TABLA DE MATERIALES -->
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1200px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Materials</h5>
+                <a href="{% url 'material_create' %}" class="btn btn-primary btn-sm">
+                    <i class="bx bx-plus"></i> New Material
+                </a>
+            </div>
+            <div class="card-body py-2">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">ID</th>
+                                <th style="width: 50%;">NAME</th>
+                                <th style="width: 15%;">UNIT</th>
+                                <th style="width: 25%;">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for material in materiales %}
+                            <tr>
+                                <td>{{ material.id_material }}</td>
+                                <td>{{ material.nombre }}</td>
+                                <td>{{ material.unidad }}</td>
+                                <td>
+                                    <a href="{% url 'material_detail' material.id_material %}" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+                                    <a href="{% url 'material_update' material.id_material %}" class="btn btn-sm btn-warning">
+                                        <i class="bx bx-edit"></i>
+                                    </a>
+                                    <a href="{% url 'material_delete' material.id_material %}" class="btn btn-sm btn-danger">
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">No materials registered</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA DE INVENTARIOS -->
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1200px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Inventories</h5>
+                <div>
+                    <a href="{% url 'inventario_material_create' %}" class="btn btn-secondary btn-sm me-2">
+                        <i class="bx bx-plus"></i> Add Material to Inventory
+                    </a>
+                    <a href="{% url 'inventario_create' %}" class="btn btn-success btn-sm">
+                        <i class="bx bx-plus"></i> New Inventory
+                    </a>
+                </div>
+            </div>
+            <div class="card-body py-2">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">ID</th>
+                                <th style="width: 35%;">PROJECT</th>
+                                <th style="width: 30%;">LOCATION</th>
+                                <th style="width: 25%;">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for inventario in inventarios %}
+                            <tr>
+                                <td>{{ inventario.id_inventario }}</td>
+                                <td>{{ inventario.id_proyecto.nombre_proyecto }}</td>
+                                <td>{{ inventario.ubicacion|default:"-" }}</td>
+                                <td>
+                                    <a href="{% url 'inventario_detail' inventario.id_inventario %}" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+                                    <a href="{% url 'inventario_update' inventario.id_inventario %}" class="btn btn-sm btn-warning">
+                                        <i class="bx bx-edit"></i>
+                                    </a>
+                                    <a href="{% url 'inventario_delete' inventario.id_inventario %}" class="btn btn-sm btn-danger">
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">No inventories registered</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA DE PROVEEDORES -->
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1200px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Suppliers</h5>
+                <div>
+                    <a href="{% url 'proveedor_material_create' %}" class="btn btn-secondary btn-sm me-2">
+                        <i class="bx bx-plus"></i> Add Material to Supplier
+                    </a>
+                    <a href="{% url 'proveedor_create' %}" class="btn btn-info btn-sm">
+                        <i class="bx bx-plus"></i> New Supplier
+                    </a>
+                </div>
+            </div>
+            <div class="card-body py-2">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">ID</th>
+                                <th style="width: 40%;">NAME</th>
+                                <th style="width: 25%;">CONTACT</th>
+                                <th style="width: 25%;">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for proveedor in proveedores %}
+                            <tr>
+                                <td>{{ proveedor.id_proveedor }}</td>
+                                <td>{{ proveedor.nombre }}</td>
+                                <td>{{ proveedor.contacto|default:"-" }}</td>
+                                <td>
+                                    <a href="{% url 'proveedor_detail' proveedor.id_proveedor %}" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+                                    <a href="{% url 'proveedor_update' proveedor.id_proveedor %}" class="btn btn-sm btn-warning">
+                                        <i class="bx bx-edit"></i>
+                                    </a>
+                                    <a href="{% url 'proveedor_delete' proveedor.id_proveedor %}" class="btn btn-sm btn-danger">
+                                        <i class="bx bx-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">No suppliers registered</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

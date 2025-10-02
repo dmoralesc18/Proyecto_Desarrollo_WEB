@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-4">
+        <div class="card" style="width: 90%; max-width: 1000px;">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Supplier Detail</h5>
+                <a href="{% url 'proveedor_update' proveedor.id_proveedor %}" class="btn btn-warning">
+                    <i class="bx bx-edit"></i> Edit
+                </a>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <th width="200">ID:</th>
+                        <td>{{ proveedor.id_proveedor }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name:</th>
+                        <td>{{ proveedor.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact:</th>
+                        <td>{{ proveedor.contacto|default:"-" }}</td>
+                    </tr>
+                </table>
+
+                <!-- Materiales que suministra este proveedor -->
+                <hr>
+                <h6 class="mt-3 mb-3">Materials Supplied</h6>
+                {% if materiales_proveedor %}
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Unit</th>
+                                <th>Unit Price</th>
+                                <th>Delivery Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pm in materiales_proveedor %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'material_detail' pm.id_material.id_material %}">
+                                        {{ pm.id_material.nombre }}
+                                    </a>
+                                </td>
+                                <td>{{ pm.id_material.unidad }}</td>
+                                <td>${{ pm.precio_unitario|floatformat:2|default:"-" }}</td>
+                                <td>{{ pm.tiempo_entrega|default:"-" }} days</td>
+                                <td>
+                                    <a href="{% url 'material_detail' pm.id_material.id_material %}" class="btn btn-sm btn-info">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">This supplier does not have materials associated.</p>
+                {% endif %}
+
+                <a href="{% url 'inventoryapp' %}" class="btn btn-secondary mt-3">Back</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -2,8 +2,6 @@ from django.db import models
 from Apps.Projects.models import Proyecto
 
 
-# Create your models here.
-
 class Material(models.Model):
     id_material = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=255)
@@ -15,6 +13,10 @@ class Material(models.Model):
         managed = False
         db_table = 'material'
 
+    def __str__(self):
+        return f"{self.nombre} ({self.unidad})"
+
+
 class Inventario(models.Model):
     id_inventario = models.AutoField(primary_key=True)
     ubicacion = models.CharField(max_length=255, blank=True, null=True)
@@ -25,6 +27,10 @@ class Inventario(models.Model):
     class Meta:
         managed = False
         db_table = 'inventario'
+
+    def __str__(self):
+        return f"Inventory #{self.id_inventario} - {self.id_proyecto.nombre_proyecto}"
+
 
 class InventarioMaterial(models.Model):
     id_inventario = models.ForeignKey(Inventario, models.DO_NOTHING, db_column='id_inventario')
@@ -38,6 +44,10 @@ class InventarioMaterial(models.Model):
         db_table = 'inventario_material'
         unique_together = (('id_inventario', 'id_material'),)
 
+    def __str__(self):
+        return f"{self.id_material.nombre} - {self.cantidad} {self.id_material.unidad}"
+
+
 class Proveedor(models.Model):
     id_proveedor = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=255)
@@ -48,6 +58,10 @@ class Proveedor(models.Model):
     class Meta:
         managed = False
         db_table = 'proveedor'
+
+    def __str__(self):
+        return self.nombre
+
 
 class ProveedorMaterial(models.Model):
     id_proveedor = models.ForeignKey(Proveedor, models.DO_NOTHING, db_column='id_proveedor')
@@ -61,3 +75,6 @@ class ProveedorMaterial(models.Model):
         managed = False
         db_table = 'proveedor_material'
         unique_together = (('id_proveedor', 'id_material'),)
+
+    def __str__(self):
+        return f"{self.id_proveedor.nombre} - {self.id_material.nombre}"
