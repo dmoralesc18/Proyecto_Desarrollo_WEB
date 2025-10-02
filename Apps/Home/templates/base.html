@@ -124,7 +124,7 @@
             <!-- Clients -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Clients</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'clientsapp' %}active{% endif %}">
-              <a href="{% url 'clientsapp' %}" class="menu-link">
+              <a href="{% url 'clients:clientsapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Clients</div>
               </a>
