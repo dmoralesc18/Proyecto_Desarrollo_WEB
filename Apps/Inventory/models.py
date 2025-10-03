@@ -33,7 +33,7 @@ class Inventario(models.Model):
 
 
 class InventarioMaterial(models.Model):
-    id_inventario = models.ForeignKey(Inventario, models.DO_NOTHING, db_column='id_inventario')
+    id_inventario = models.ForeignKey(Inventario, models.DO_NOTHING, db_column='id_inventario', primary_key=True)
     id_material = models.ForeignKey('Material', models.DO_NOTHING, db_column='id_material')
     cantidad = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(blank=True, null=True)
@@ -64,7 +64,7 @@ class Proveedor(models.Model):
 
 
 class ProveedorMaterial(models.Model):
-    id_proveedor = models.ForeignKey(Proveedor, models.DO_NOTHING, db_column='id_proveedor')
+    id_proveedor = models.ForeignKey(Proveedor, models.DO_NOTHING, db_column='id_proveedor', primary_key=True)
     id_material = models.ForeignKey(Material, models.DO_NOTHING, db_column='id_material')
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     tiempo_entrega = models.IntegerField(blank=True, null=True, db_comment='Días de entrega')

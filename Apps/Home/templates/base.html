@@ -97,7 +97,7 @@
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Projects</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'projectsapp' %}active{% endif %}">
               <a href="{% url 'projectsapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-menu"></i>
+                <i class="menu-icon tf-icons bx bx-crown"></i>
                 <div data-i18n="Analytics"> Projects</div>
               </a>
             </li>
@@ -106,7 +106,7 @@
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'qualityapp' %}active{% endif %}">
               <a href="{% url 'quality:qualityapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Analytics">Quality</div>
               </a>
             </li>
@@ -116,7 +116,7 @@
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Subcontractors</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'subcontractorsapp' %}active{% endif %}">
               <a href="{% url 'subcontractorsapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-layout"></i>
                 <div data-i18n="Analytics">Subcontractors</div>
               </a>
             </li>
@@ -125,7 +125,7 @@
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Clients</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'clientsapp' %}active{% endif %}">
               <a href="{% url 'clients:clientsapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-crown"></i>
                 <div data-i18n="Analytics">Clients</div>
               </a>
             </li>
@@ -133,31 +133,31 @@
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Documents</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'documentsapp' %}active{% endif %}">
               <a href="{% url 'documents:documentsapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-file"></i>
                 <div data-i18n="Analytics">Documents</div>
               </a>
             </li>
             <li class="menu-item {% if request.resolver_match.url_name == 'equipmentapp' %}active{% endif %}">
               <a href="{% url 'equipmentapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                 <div data-i18n="Analytics">Equipment</div>
               </a>
             </li>
             <li class="menu-item {% if request.resolver_match.url_name == 'financeapp' %}active{% endif %}">
               <a href="{% url 'financeapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
                 <div data-i18n="Analytics">Finance</div>
               </a>
             </li>
               <li class="menu-item {% if request.resolver_match.url_name == 'inventoryapp' %}active{% endif %}">
               <a href="{% url 'inventoryapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Analytics">Inventory</div>
               </a>
             </li>
             <li class="menu-item {% if request.resolver_match.url_name == 'reportsapp' %}active{% endif %}">
               <a href="{% url 'reportsapp' %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Analytics">Reports</div>
               </a>
 
@@ -165,8 +165,7 @@
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Help</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'support' %}active{% endif %}">
               <a
-                href=""
-                target="_blank"
+                href="{% url 'core:support' %}"
                 class="menu-link"
               >
                 <i class="menu-icon tf-icons bx bx-support"></i>
