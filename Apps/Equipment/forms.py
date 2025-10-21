@@ -41,12 +41,12 @@ class AlquilerForm(forms.ModelForm):
             'id_proyecto': forms.Select(attrs={'class': 'form-control'}),
             'fecha_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'fecha_fin': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'costo': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Rental cost'}),
+            'costo': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01', 'placeholder': 'Costo de alquiler'}),
         }
         labels = {
-            'id_equipo': 'Equipment',
-            'id_proyecto': 'Project',
-            'fecha_inicio': 'Start Date',
-            'fecha_fin': 'End Date',
-            'costo': 'Cost',
+            'id_equipo': 'Equipo',
+            'id_proyecto': 'Proyecto',
+            'fecha_inicio': 'Fecha de inicio',
+            'fecha_fin': 'Fecha de fin',
+            'costo': 'Costo de alquiler',
         }

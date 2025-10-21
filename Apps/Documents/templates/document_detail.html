@@ -17,11 +17,11 @@
                         <td>{{ documento.id_documento }}</td>
                     </tr>
                     <tr>
-                        <th>Type:</th>
+                        <th>Tipo:</th>
                         <td>{{ documento.tipo|default:"-" }}</td>
                     </tr>
                     <tr>
-                        <th>Version:</th>
+                        <th>Versión:</th>
                         <td>{{ documento.version|default:"-" }}</td>
                     </tr>
                     <tr>
@@ -29,7 +29,7 @@
                         <td>{{ documento.id_proyecto.nombre_proyecto }}</td>
                     </tr>
                     <tr>
-                        <th>Upload Date:</th>
+                        <th>Fecha de Carga:</th>
                         <td>{{ documento.fecha_carga|date:"Y-m-d" }}</td>
                     </tr>
                 </table>

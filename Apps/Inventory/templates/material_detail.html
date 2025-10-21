@@ -49,7 +49,7 @@
                                     </a>
                                 </td>
                                 <td>Q{{ pm.precio_unitario|floatformat:2|default:"-" }}</td>
-                                <td>{{ pm.tiempo_entrega|default:"-" }} dÃ­as</td>
+                                <td>{{ pm.tiempo_entrega|default:"-" }} días</td>
                                 <td>
                                     <a href="{% url 'proveedor_detail' pm.id_proveedor.id_proveedor %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
@@ -97,7 +97,7 @@
                     </table>
                 </div>
                 {% else %}
-                <p class="text-muted">Este material no estÃ¡ en ningÃºn inventario.</p>
+                <p class="text-muted">Este material no está en ningún inventario.</p>
                 {% endif %}
 
                 <a href="{% url 'inventoryapp' %}" class="btn btn-secondary mt-3">Volver</a>

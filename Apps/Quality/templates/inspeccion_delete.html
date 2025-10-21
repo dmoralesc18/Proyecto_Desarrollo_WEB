@@ -5,16 +5,16 @@
     <div class="d-flex justify-content-center mt-4">
         <div class="card" style="width: 90%; max-width: 1000px;">
             <div class="card-header">
-                <h5 class="mb-0 text-danger">Eliminar Inspection</h5>
+                <h5 class="mb-0 text-danger">Eliminar Inspección</h5>
             </div>
             <div class="card-body">
-                <p>Are you sure you want to Eliminar this inspection?</p>
+                <p>¿Estás seguro que deseas eliminar esta inspección?</p>
                 <ul>
-                    <li><strong>Date:</strong> {{ inspeccion.fecha|date:"Y-m-d" }}</li>
-                    <li><strong>Result:</strong> {{ inspeccion.resultado|default:"-" }}</li>
+                    <li><strong>Fecha:</strong> {{ inspeccion.fecha|date:"Y-m-d" }}</li>
+                    <li><strong>Resultado:</strong> {{ inspeccion.resultado|default:"-" }}</li>
                     <li><strong>Proyecto:</strong> {{ inspeccion.id_proyecto.nombre_proyecto }}</li>
                 </ul>
-                <p class="text-danger">This Acción cannot be undone.</p>
+                <p class="text-danger">Esta acción no se puede deshacer.</p>
                 <form method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Eliminar</button>

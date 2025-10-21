@@ -5,17 +5,17 @@
     <div class="d-flex justify-content-center mt-4">
         <div class="card" style="width: 90%; max-width: 1000px;">
             <div class="card-header">
-                <h5 class="mb-0 text-danger">Eliminar Incident</h5>
+                <h5 class="mb-0 text-danger">Eliminar Incidente</h5>
             </div>
             <div class="card-body">
-                <p>Are you sure you want to Eliminar this incident?</p>
+                <p>¿Estás seguro que deseas eliminar este incidente?</p>
                 <ul>
-                    <li><strong>Description:</strong> {{ incidente.descripcion|truncatewords:20 }}</li>
-                    <li><strong>Severity:</strong> {{ incidente.gravedad|default:"-" }}</li>
-                    <li><strong>Date:</strong> {{ incidente.fecha|date:"Y-m-d" }}</li>
-                    <li><strong>Project:</strong> {{ incidente.id_proyecto.nombre_proyecto }}</li>
+                    <li><strong>Descripción:</strong> {{ incidente.descripcion|truncatewords:20 }}</li>
+                    <li><strong>Severidad:</strong> {{ incidente.gravedad|default:"-" }}</li>
+                    <li><strong>Fecha:</strong> {{ incidente.fecha|date:"Y-m-d" }}</li>
+                    <li><strong>Proyecto:</strong> {{ incidente.id_proyecto.nombre_proyecto }}</li>
                 </ul>
-                <p class="text-danger">This action cannot be undone.</p>
+                <p class="text-danger">Esta acción no se puede deshacer.</p>
                 <form method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Eliminar</button>

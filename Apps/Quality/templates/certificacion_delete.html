@@ -8,14 +8,14 @@
                 <h5 class="mb-0 text-danger">Eliminar Certification</h5>
             </div>
             <div class="card-body">
-                <p>Are you sure you want to Eliminar this certification?</p>
+                <p>¿Estás seguro que deseas eliminar esta certificación?</p>
                 <ul>
-                    <li><strong>Name:</strong> {{ certificacion.nombre }}</li>
-                    <li><strong>Issue Date:</strong> {{ certificacion.fecha_emision|date:"Y-m-d" }}</li>
-                    <li><strong>Expiration Date:</strong> {{ certificacion.fecha_vencimiento|date:"Y-m-d"|default:"-" }}</li>
-                    <li><strong>Project:</strong> {{ certificacion.id_proyecto.nombre_proyecto }}</li>
+                    <li><strong>Nombre:</strong> {{ certificacion.nombre }}</li>
+                    <li><strong>Fecha de Emisión:</strong> {{ certificacion.fecha_emision|date:"Y-m-d" }}</li>
+                    <li><strong>Fecha de Vencimiento:</strong> {{ certificacion.fecha_vencimiento|date:"Y-m-d"|default:"-" }}</li>
+                    <li><strong>Proyecto:</strong> {{ certificacion.id_proyecto.nombre_proyecto }}</li>
                 </ul>
-                <p class="text-danger">This action cannot be undone.</p>
+                <p class="text-danger">Esta acción no se puede deshacer.</p>
                 <form method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Eliminar</button>

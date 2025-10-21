@@ -17,23 +17,23 @@
                         <td>{{ alquiler.id_alquiler }}</td>
                     </tr>
                     <tr>
-                        <th>Equipo:</th>
+                        <th>EQUIPO:</th>
                         <td>{{ alquiler.id_equipo.nombre }}</td>
                     </tr>
                     <tr>
-                        <th>Proyecto:</th>
+                        <th>PROYECTO:</th>
                         <td>{{ alquiler.id_proyecto.nombre_proyecto }}</td>
                     </tr>
                     <tr>
-                        <th>Fecha de inicio:</th>
+                        <th>FECHA INICIO:</th>
                         <td>{{ alquiler.fecha_inicio|date:"Y-m-d" }}</td>
                     </tr>
                     <tr>
-                        <th>Fecha de fin:</th>
+                        <th>FECHA FIN:</th>
                         <td>{{ alquiler.fecha_fin|date:"Y-m-d"|default:"-" }}</td>
                     </tr>
                     <tr>
-                        <th>Costo:</th>
+                        <th>COSTO:</th>
                         <td>Q{{ alquiler.costo|floatformat:2|default:"-" }}</td>
                     </tr>
                 </table>

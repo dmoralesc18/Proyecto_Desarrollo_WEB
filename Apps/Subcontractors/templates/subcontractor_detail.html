@@ -40,8 +40,8 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Proyecto</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
+                                <th>Inicio</th>
+                                <th>Fin</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -63,7 +63,7 @@
                     </table>
                 </div>
                 {% else %}
-                <p class="text-muted">No contracts associated with this subcontractor.</p>
+                <p class="text-muted">No hay contratos asociados con este subcontratista.</p>
                 {% endif %}
 
                 <a href="{% url 'subcontractorsapp' %}" class="btn btn-secondary mt-3">Volver</a>

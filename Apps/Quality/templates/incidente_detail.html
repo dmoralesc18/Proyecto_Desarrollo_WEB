@@ -17,11 +17,11 @@
                         <td>{{ incidente.id_incidente }}</td>
                     </tr>
                     <tr>
-                        <th>Description:</th>
+                        <th>Descripción:</th>
                         <td>{{ incidente.descripcion }}</td>
                     </tr>
                     <tr>
-                        <th>Severity:</th>
+                        <th>Severidad:</th>
                         <td>
                             {% if incidente.gravedad == "Baja" %}
                                 <span class="badge bg-info">{{ incidente.gravedad }}</span>
@@ -37,11 +37,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Date:</th>
+                        <th>Fecha:</th>
                         <td>{{ incidente.fecha|date:"Y-m-d" }}</td>
                     </tr>
                     <tr>
-                        <th>Project:</th>
+                        <th>Proyecto:</th>
                         <td>{{ incidente.id_proyecto.nombre_proyecto }}</td>
                     </tr>
                 </table>

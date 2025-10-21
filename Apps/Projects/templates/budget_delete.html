@@ -8,8 +8,8 @@
                 <h5 class="mb-0 text-danger">Eliminar presupuesto</h5>
             </div>
             <div class="card-body">
-                <p>Â¿Seguro que deseas eliminar el presupuesto <strong>#{{ presupuesto.id_presupuesto }}</strong> del proyecto <strong>{{ presupuesto.id_proyecto.nombre_proyecto }}</strong>?</p>
-                <p class="text-danger">Esta acciÃ³n no se puede deshacer.</p>
+                <p>¿Seguro que deseas eliminar el presupuesto <strong>#{{ presupuesto.id_presupuesto }}</strong> del proyecto <strong>{{ presupuesto.id_proyecto.nombre_proyecto }}</strong>?</p>
+                <p class="text-danger">Esta acción no se puede deshacer.</p>
                 <form method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Eliminar</button>

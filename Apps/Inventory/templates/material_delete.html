@@ -8,8 +8,8 @@
                 <h5 class="mb-0 text-danger">Eliminar Material</h5>
             </div>
             <div class="card-body">
-                <p>Are you sure you want to Eliminar the material <strong>{{ material.nombre }}</strong>?</p>
-                <p class="text-danger">This action cannot be undone.</p>
+                <p>¿Estás seguro que deseas eliminar el material <strong>{{ material.nombre }}</strong>?</p>
+                <p class="text-danger">Esta acción no se puede deshacer.</p>
                 <form method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Eliminar</button>

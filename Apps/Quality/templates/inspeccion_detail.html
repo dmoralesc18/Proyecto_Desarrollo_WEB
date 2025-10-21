@@ -17,11 +17,11 @@
                         <td>{{ inspeccion.id_inspeccion }}</td>
                     </tr>
                     <tr>
-                        <th>Date:</th>
+                        <th>Fecha:</th>
                         <td>{{ inspeccion.fecha|date:"Y-m-d" }}</td>
                     </tr>
                     <tr>
-                        <th>Result:</th>
+                        <th>Resultado:</th>
                         <td>
                             {% if inspeccion.resultado == "Cumple" %}
                                 <span class="badge bg-success">{{ inspeccion.resultado }}</span>

@@ -7,7 +7,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Detalle de certificación</h5>
                 <a href="{% url 'quality:certificacion_update' certificacion.id_certificacion %}" class="btn btn-warning">
-                    <i class="bx bx-edit"></i> Edit
+                    <i class="bx bx-edit"></i> Editar
                 </a>
             </div>
             <div class="card-body">
@@ -17,19 +17,19 @@
                         <td>{{ certificacion.id_certificacion }}</td>
                     </tr>
                     <tr>
-                        <th>Name:</th>
+                        <th>Nombre:</th>
                         <td>{{ certificacion.nombre }}</td>
                     </tr>
                     <tr>
-                        <th>Issue Date:</th>
+                        <th>Fecha de Emisión:</th>
                         <td>{{ certificacion.fecha_emision|date:"Y-m-d" }}</td>
                     </tr>
                     <tr>
-                        <th>Expiration Date:</th>
+                        <th>Fecha de Vencimiento:</th>
                         <td>{{ certificacion.fecha_vencimiento|date:"Y-m-d"|default:"-" }}</td>
                     </tr>
                     <tr>
-                        <th>Project:</th>
+                        <th>Proyecto:</th>
                         <td>{{ certificacion.id_proyecto.nombre_proyecto }}</td>
                     </tr>
                 </table>
