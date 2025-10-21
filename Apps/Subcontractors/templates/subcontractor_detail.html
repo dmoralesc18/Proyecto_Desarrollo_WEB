@@ -1,13 +1,13 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
     <div class="d-flex justify-content-center mt-4">
         <div class="card" style="width: 90%; max-width: 1000px;">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Subcontractor Detail</h5>
+                <h5 class="mb-0">Detalle de subcontratista</h5>
                 <a href="{% url 'subcontractor_update' subcontratista.id_subcontratista %}" class="btn btn-warning">
-                    <i class="bx bx-edit"></i> Edit
+                    <i class="bx bx-Editarar"></i> Editarar
                 </a>
             </div>
             <div class="card-body">
@@ -32,17 +32,17 @@
 
                 <!-- Contratos asociados -->
                 <hr>
-                <h6 class="mt-3 mb-3">Associated Contracts</h6>
+                <h6 class="mt-3 mb-3">Contratos asociados</h6>
                 {% if contratos %}
                 <div class="table-responsive">
                     <table class="table table-sm table-hover">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Project</th>
+                                <th>Proyecto</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
-                                <th>Actions</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,8 +66,10 @@
                 <p class="text-muted">No contracts associated with this subcontractor.</p>
                 {% endif %}
 
-                <a href="{% url 'subcontractorsapp' %}" class="btn btn-secondary mt-3">Back</a>
+                <a href="{% url 'subcontractorsapp' %}" class="btn btn-secondary mt-3">Volver</a>
             </div>
         </div>
     </div>
 {% endblock %}
+
+

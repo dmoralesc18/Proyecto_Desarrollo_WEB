@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
@@ -26,7 +26,7 @@
     <div class="col-sm-6 col-md-4">
       <label class="form-label">Tipo de fecha</label>
       <select name="date_type" class="form-select" onchange="this.form.submit()">
-        <option value="emision" {% if date_type == 'emision' or not date_type %}selected{% endif %}>Fecha de emisión</option>
+        <option value="emision" {% if date_type == 'emision' or not date_type %}selected{% endif %}>Fecha de emisiÃ³n</option>
         <option value="pago" {% if date_type == 'pago' %}selected{% endif %}>Fecha de pago</option>
       </select>
     </div>
@@ -49,7 +49,7 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Facturado</span>
-          <h4 class="mb-0">${{ total_facturado_global|floatformat:2 }}</h4>
+          <h4 class="mb-0">Q{{ total_facturado_global|floatformat:2 }}</h4>
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Pagado</span>
-          <h4 class="mb-0 text-success">${{ total_pagado_global|floatformat:2 }}</h4>
+          <h4 class="mb-0 text-success">Q{{ total_pagado_global|floatformat:2 }}</h4>
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Pendiente</span>
-          <h4 class="mb-0 text-danger">${{ total_pendiente_global|floatformat:2 }}</h4>
+          <h4 class="mb-0 text-danger">Q{{ total_pendiente_global|floatformat:2 }}</h4>
         </div>
       </div>
     </div>
@@ -85,7 +85,7 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Presupuesto</span>
-          <h4 class="mb-0">${{ presupuesto_total|floatformat:2 }}</h4>
+          <h4 class="mb-0">Q{{ presupuesto_total|floatformat:2 }}</h4>
         </div>
       </div>
     </div>
@@ -93,14 +93,14 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Presupuesto restante</span>
-          <h4 class="mb-0">${{ presupuesto_restante|floatformat:2 }}</h4>
+          <h4 class="mb-0">Q{{ presupuesto_restante|floatformat:2 }}</h4>
         </div>
       </div>
     </div>
   </div>
   {% endif %}
 
-  <!-- Indicadores / Gráficos -->
+  <!-- Indicadores / GrÃ¡ficos -->
   <div class="row mb-4">
     <div class="col-md-6">
       <div class="card h-100">
@@ -131,7 +131,7 @@
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="card-title mb-0">Pagos pendientes</h5>
           <div class="text-muted">
-            Total pendiente: ${{ total_pendiente_global|floatformat:2 }} | Total pagado: ${{ total_pagado_global|floatformat:2 }}
+            Total pendiente: Q{{ total_pendiente_global|floatformat:2 }} | Total pagado: Q{{ total_pagado_global|floatformat:2 }}
           </div>
         </div>
           <div class="table-responsive">
@@ -140,7 +140,7 @@
               <tr>
                 <th>Factura</th>
                 <th>Proyecto</th>
-                <th>Fecha emisión</th>
+                <th>Fecha emisiÃ³n</th>
                 <th>Monto</th>
                 <th>Pagado</th>
                 <th>Saldo</th>
@@ -152,9 +152,9 @@
                 <td>#{{ factura.id_factura }}</td>
                 <td>{{ factura.id_proyecto.nombre_proyecto }}</td>
                 <td>{{ factura.fecha_emision }}</td>
-                <td>${{ factura.monto|floatformat:2 }}</td>
-                <td>${{ factura.total_pagado|floatformat:2 }}</td>
-                <td><strong>${{ factura.saldo|floatformat:2 }}</strong></td>
+                <td>Q{{ factura.monto|floatformat:2 }}</td>
+                <td>Q{{ factura.total_pagado|floatformat:2 }}</td>
+                <td><strong>Q{{ factura.saldo|floatformat:2 }}</strong></td>
               </tr>
               {% empty %}
               <tr>
@@ -191,13 +191,13 @@
               {% with pendiente=p.total_facturado|floatformat:2 %}
               <tr>
                 <td>{{ p.nombre_proyecto }}</td>
-                <td>${{ p.presupuesto_total_proyecto|floatformat:2 }}</td>
-                <td>${{ p.total_facturado|floatformat:2 }}</td>
-                <td>${{ p.total_pagado|floatformat:2 }}</td>
-                <td>${{ p.pendiente_facturas|floatformat:2 }}</td>
+                <td>Q{{ p.presupuesto_total_proyecto|floatformat:2 }}</td>
+                <td>Q{{ p.total_facturado|floatformat:2 }}</td>
+                <td>Q{{ p.total_pagado|floatformat:2 }}</td>
+                <td>Q{{ p.pendiente_facturas|floatformat:2 }}</td>
                 <td>
                   {% if p.presupuesto %}
-                    ${{ p.presupuesto_restante_proyecto|floatformat:2 }}
+                    Q{{ p.presupuesto_restante_proyecto|floatformat:2 }}
                   {% else %}
                     -
                   {% endif %}
@@ -215,7 +215,7 @@
       </div>
     </div>
   </div>
-  <!-- Scripts de gráficos -->
+  <!-- Scripts de grÃ¡ficos -->
   <script>
     (function() {
       const totalPagado = Number("{{ total_pagado_global|default:0 }}");
@@ -254,3 +254,4 @@
   </script>
 </div>
 {% endblock %}
+

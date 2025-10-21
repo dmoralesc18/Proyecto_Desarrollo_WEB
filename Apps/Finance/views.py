@@ -64,15 +64,31 @@ class FinanceView(TemplateView):
             facturas_in_range = factura_base
 
         # Facturas con saldo pendiente (monto facturado - monto pagado > 0)
-        facturas_con_saldo = (
-            (facturas_in_range if date_type == 'pago' else factura_base)
-            .annotate(
-                total_pagado=Coalesce(Sum('pago__monto'), decimal_zero),
-                saldo=F('monto') - Coalesce(Sum('pago__monto'), decimal_zero),
+        if date_type == 'pago':
+            pago_cutoff_q = Q()
+            if date_to:
+                pago_cutoff_q &= Q(pago__fecha__lte=date_to)
+            if selected_status:
+                pago_cutoff_q &= Q(estado=selected_status)
+            facturas_con_saldo = (
+                facturas_in_range
+                .annotate(
+                    total_pagado=Coalesce(Sum('pago__monto', filter=pago_cutoff_q), decimal_zero),
+                    saldo=F('monto') - Coalesce(Sum('pago__monto', filter=pago_cutoff_q), decimal_zero),
+                )
+                .filter(saldo__gt=0)
+                .select_related('id_proyecto')
             )
-            .filter(saldo__gt=0)
-            .select_related('id_proyecto')
-        )
+        else:
+            facturas_con_saldo = (
+                factura_base
+                .annotate(
+                    total_pagado=Coalesce(Sum('pago__monto'), decimal_zero),
+                    saldo=F('monto') - Coalesce(Sum('pago__monto'), decimal_zero),
+                )
+                .filter(saldo__gt=0)
+                .select_related('id_proyecto')
+            )
 
         # Resumen por proyecto: total facturado, total pagado y presupuesto (si existe)
         if date_type == 'pago':
@@ -85,6 +101,10 @@ class FinanceView(TemplateView):
                     ),
                     total_pagado=Coalesce(
                         Sum('factura__pago__monto', filter=Q(factura__pago__in=pago_base)),
+                        decimal_zero,
+                    ),
+                    total_pagado_cutoff=Coalesce(
+                        Sum('factura__pago__monto', filter=(Q() if not date_to else Q(factura__pago__fecha__lte=date_to)) & (Q() if not selected_status else Q(factura__estado=selected_status))),
                         decimal_zero,
                     ),
                     presupuesto_agg=Coalesce(Sum('presupuesto__monto_total'), decimal_zero),
@@ -107,8 +127,14 @@ class FinanceView(TemplateView):
             fact = p.total_facturado or 0
             pag = p.total_pagado or 0
             pres = p.presupuesto_agg or 0
-            p.pendiente_facturas = fact - pag
-            p.presupuesto_restante_proyecto = pres - pag
+            # En modo pago, el saldo y presupuesto restante se calculan con pagos hasta el corte
+            if date_type == 'pago':
+                pag_corte = getattr(p, 'total_pagado_cutoff', None) or 0
+                p.pendiente_facturas = fact - pag_corte
+                p.presupuesto_restante_proyecto = pres - pag_corte
+            else:
+                p.pendiente_facturas = fact - pag
+                p.presupuesto_restante_proyecto = pres - pag
             p.presupuesto_total_proyecto = pres
 
         # Totales (alcance actual del filtro)
@@ -121,11 +147,16 @@ class FinanceView(TemplateView):
                 total=Coalesce(Sum('monto'), decimal_zero)
             )['total']
 
+            pago_cutoff_q = Q()
+            if date_to:
+                pago_cutoff_q &= Q(pago__fecha__lte=date_to)
+            if selected_status:
+                pago_cutoff_q &= Q(estado=selected_status)
             total_pendiente_global = (
                 facturas_in_range
                 .annotate(
-                    pagado=Coalesce(Sum('pago__monto'), decimal_zero),
-                    saldo=F('monto') - Coalesce(Sum('pago__monto'), decimal_zero),
+                    pagado=Coalesce(Sum('pago__monto', filter=pago_cutoff_q), decimal_zero),
+                    saldo=F('monto') - Coalesce(Sum('pago__monto', filter=pago_cutoff_q), decimal_zero),
                 )
                 .aggregate(total=Coalesce(Sum('saldo'), decimal_zero))['total']
             )

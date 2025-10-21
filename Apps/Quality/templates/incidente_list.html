@@ -1,17 +1,17 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
     <div class="d-flex justify-content-center mt-4">
         <div class="card" style="width: 90%; max-width: 1200px;">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Incidents</h5>
+                <h5 class="mb-0">Incidentes</h5>
                 <div>
                     <a href="{% url 'quality:incidente_create' %}" class="btn btn-primary btn-sm">
-                        <i class="bx bx-plus"></i> New Incident
+                        <i class="bx bx-plus"></i> Nuevo incidente
                     </a>
                     <a href="{% url 'quality:qualityapp' %}" class="btn btn-secondary btn-sm">
-                        <i class="bx bx-arrow-back"></i> Back
+                        <i class="bx bx-arrow-Volver"></i> Volver
                     </a>
                 </div>
             </div>
@@ -21,11 +21,11 @@
                         <thead>
                             <tr>
                                 <th style="width: 8%;">ID</th>
-                                <th style="width: 30%;">DESCRIPTION</th>
-                                <th style="width: 12%;">SEVERITY</th>
-                                <th style="width: 15%;">DATE</th>
-                                <th style="width: 20%;">PROJECT</th>
-                                <th style="width: 15%;">ACTIONS</th>
+                                <th style="width: 30%;">DESCRIPCIÓN</th>
+                                <th style="width: 12%;">SEVERIDAD</th>
+                                <th style="width: 15%;">FECHA</th>
+                                <th style="width: 20%;">PROYECTO</th>
+                                <th style="width: 15%;">ACCIONES</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +40,7 @@
                                         <span class="badge bg-warning">{{ incidente.gravedad }}</span>
                                     {% elif incidente.gravedad == "Alta" %}
                                         <span class="badge bg-danger">{{ incidente.gravedad }}</span>
-                                    {% elif incidente.gravedad == "Crítica" %}
+                                    {% elif incidente.gravedad == "CrÃ­tica" %}
                                         <span class="badge bg-dark">{{ incidente.gravedad }}</span>
                                     {% else %}
                                         <span class="badge bg-secondary">{{ incidente.gravedad|default:"-" }}</span>
@@ -62,7 +62,7 @@
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="6" class="text-center">No incidents registered</td>
+                                <td colspan="6" class="text-center">No hay incidentes registrados</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -72,3 +72,6 @@
         </div>
     </div>
 {% endblock %}
+
+
+

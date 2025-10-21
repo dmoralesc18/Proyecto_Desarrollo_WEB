@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
     <div class="d-flex justify-content-center mt-4">
         <div class="card" style="width: 90%; max-width: 1200px;">
             <div class="card-header">
-                <h5 class="mb-0">Quality Management</h5>
+                <h5 class="mb-0">Gestión de calidad</h5>
             </div>
             <div class="card-body">
                 <div class="row g-3">
@@ -13,10 +13,10 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="card text-white bg-primary">
                             <div class="card-body">
-                                <h6 class="card-title">Inspections</h6>
+                                <h6 class="card-title">Inspecciones</h6>
                                 <h2 class="mb-0">{{ total_inspecciones }}</h2>
                                 <a href="{% url 'quality:inspeccion_list' %}" class="btn btn-light btn-sm mt-2">
-                                    View All
+                                    Ver todo
                                 </a>
                             </div>
                         </div>
@@ -26,10 +26,10 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="card text-white bg-danger">
                             <div class="card-body">
-                                <h6 class="card-title">Incidents</h6>
+                                <h6 class="card-title">Incidentes</h6>
                                 <h2 class="mb-0">{{ total_incidentes }}</h2>
                                 <a href="{% url 'quality:incidente_list' %}" class="btn btn-light btn-sm mt-2">
-                                    View All
+                                    Ver todo
                                 </a>
                             </div>
                         </div>
@@ -39,10 +39,10 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="card text-white bg-success">
                             <div class="card-body">
-                                <h6 class="card-title">Certifications</h6>
+                                <h6 class="card-title">Certificaciones</h6>
                                 <h2 class="mb-0">{{ total_certificaciones }}</h2>
                                 <a href="{% url 'quality:certificacion_list' %}" class="btn btn-light btn-sm mt-2">
-                                    View All
+                                    Ver todo
                                 </a>
                             </div>
                         </div>
@@ -52,10 +52,10 @@
                     <div class="col-md-6 col-lg-3">
                         <div class="card text-white bg-info">
                             <div class="card-body">
-                                <h6 class="card-title">Quality Tests</h6>
+                                <h6 class="card-title">Pruebas de calidad</h6>
                                 <h2 class="mb-0">{{ total_pruebas }}</h2>
                                 <a href="{% url 'quality:prueba_list' %}" class="btn btn-light btn-sm mt-2">
-                                    View All
+                                    Ver todo
                                 </a>
                             </div>
                         </div>
@@ -65,3 +65,5 @@
         </div>
     </div>
 {% endblock %}
+
+

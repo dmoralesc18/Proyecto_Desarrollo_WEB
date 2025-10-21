@@ -1,4 +1,4 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 
 <!-- =========================================================
@@ -14,7 +14,7 @@
  -->
 <!-- beautify ignore:start -->
 <html
-  lang="en"
+  lang="es"
   class="light-style layout-menu-fixed"
   dir="ltr"
   data-theme="theme-default"
@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Dashboard - Analytics </title>
+    <title>Panel - Analítica</title>
 
     <meta name="description" content="" />
 
@@ -59,7 +59,7 @@
     <!-- Helpers -->
     <script src="{% static 'vendor/js/helpers.js' %}"></script>
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and Ayudaers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{% static 'js/config.js' %}"></script>
   </head>
@@ -93,83 +93,83 @@
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
 
-            <!-- Projects -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Projects</span></li>
+            <!-- Proyectos -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Proyectos</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'projectsapp' %}active{% endif %}">
               <a href="{% url 'projectsapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Analytics"> Projects</div>
+                <div data-i18n="Analytics">Proyectos</div>
               </a>
             </li>
 
-            <!-- Forms & Tables -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li>
+            <!-- Formularios y Tablas -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Formularios y Tablas</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'qualityapp' %}active{% endif %}">
               <a href="{% url 'quality:qualityapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Analytics">Quality</div>
+                <div data-i18n="Analytics">Calidad</div>
               </a>
             </li>
 
-            <!-- Subcontractors -->
+            <!-- Subcontratistas -->
 
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Subcontractors</span></li>
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Subcontratistas</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'subcontractorsapp' %}active{% endif %}">
               <a href="{% url 'subcontractorsapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
-                <div data-i18n="Analytics">Subcontractors</div>
+                <div data-i18n="Analytics">Subcontratistas</div>
               </a>
             </li>
 
-            <!-- Clients -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Clients</span></li>
+            <!-- Clientes -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Clientes</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'clientsapp' %}active{% endif %}">
               <a href="{% url 'clients:clientsapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-crown"></i>
-                <div data-i18n="Analytics">Clients</div>
+                <div data-i18n="Analytics">Clientes</div>
               </a>
             </li>
-            <!-- Documents -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Documents</span></li>
+            <!-- Documentos -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Documentos</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'documentsapp' %}active{% endif %}">
               <a href="{% url 'documents:documentsapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-file"></i>
-                <div data-i18n="Analytics">Documents</div>
+                <div data-i18n="Analytics">Documentos</div>
               </a>
             </li>
             <li class="menu-item {% if request.resolver_match.url_name == 'equipmentapp' %}active{% endif %}">
               <a href="{% url 'equipmentapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                <div data-i18n="Analytics">Equipment</div>
+                <div data-i18n="Analytics">Equipos</div>
               </a>
             </li>
             <li class="menu-item {% if request.resolver_match.url_name == 'financeapp' %}active{% endif %}">
               <a href="{% url 'financeapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                <div data-i18n="Analytics">Finance</div>
+                <div data-i18n="Analytics">Finanzas</div>
               </a>
             </li>
               <li class="menu-item {% if request.resolver_match.url_name == 'inventoryapp' %}active{% endif %}">
               <a href="{% url 'inventoryapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Analytics">Inventory</div>
+                <div data-i18n="Analytics">Inventario</div>
               </a>
             </li>
             <li class="menu-item {% if request.resolver_match.url_name == 'reportsapp' %}active{% endif %}">
               <a href="{% url 'reportsapp' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Analytics">Reports</div>
+                <div data-i18n="Analytics">Reportes</div>
               </a>
 
-            <!-- Support  -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Help</span></li>
+            <!-- Ayuda  -->
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Ayuda</span></li>
             <li class="menu-item {% if request.resolver_match.url_name == 'support' %}active{% endif %}">
               <a
                 href="{% url 'core:support' %}"
                 class="menu-link"
               >
                 <i class="menu-icon tf-icons bx bx-support"></i>
-                <div data-i18n="Support">Support</div>
+                <div data-i18n="Support">Soporte</div>
               </a>
             </li>
 
@@ -197,7 +197,7 @@
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- Section where the projects in progress will go -->
                 <li class="nav-item lh-1 me-3">
-                  <a>Number of Projects</a>
+                  <a>Número de Proyectos</a>
                 </li>
 
                 <!-- User -->
@@ -228,20 +228,20 @@
                     <li>
                       <a class="dropdown-item" href="#">
                         <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
+                        <span class="align-middle">Mi Perfil</span>
                       </a>
                     </li>
                     <li>
                       <a class="dropdown-item" href="#">
                         <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
+                        <span class="align-middle">ConfiguraciÃ³n</span>
                       </a>
                     </li>
                     <li>
                       <a class="dropdown-item" href="#">
                         <span class="d-flex align-items-center align-middle">
                           <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
+                          <span class="flex-grow-1 align-middle">FacturaciÃ³n</span>
                           <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
                         </span>
                       </a>
@@ -252,7 +252,7 @@
                     <li>
                       <a class="dropdown-item" href="auth-login-basic.html">
                         <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
+                        <span class="align-middle">Cerrar sesiÃ³n</span>
                       </a>
                     </li>
                   </ul>
@@ -280,7 +280,7 @@
             <footer class="content-footer footer bg-footer-theme">
               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                 <div class="mb-2 mb-md-0">
-                  ©
+                  Â©
                   <script>
                     document.write(new Date().getFullYear());
                   </script>
@@ -317,3 +317,6 @@
 
   </body>
 </html>
+
+
+

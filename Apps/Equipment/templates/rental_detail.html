@@ -1,13 +1,13 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
     <div class="d-flex justify-content-center mt-4">
         <div class="card" style="width: 90%; max-width: 1000px;">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Rental Detail</h5>
+                <h5 class="mb-0">Detalle de alquiler</h5>
                 <a href="{% url 'rental_update' alquiler.id_alquiler %}" class="btn btn-warning">
-                    <i class="bx bx-edit"></i> Edit
+                    <i class="bx bx-edit"></i> Editar
                 </a>
             </div>
             <div class="card-body">
@@ -17,28 +17,29 @@
                         <td>{{ alquiler.id_alquiler }}</td>
                     </tr>
                     <tr>
-                        <th>Equipment:</th>
+                        <th>Equipo:</th>
                         <td>{{ alquiler.id_equipo.nombre }}</td>
                     </tr>
                     <tr>
-                        <th>Project:</th>
+                        <th>Proyecto:</th>
                         <td>{{ alquiler.id_proyecto.nombre_proyecto }}</td>
                     </tr>
                     <tr>
-                        <th>Start Date:</th>
+                        <th>Fecha de inicio:</th>
                         <td>{{ alquiler.fecha_inicio|date:"Y-m-d" }}</td>
                     </tr>
                     <tr>
-                        <th>End Date:</th>
+                        <th>Fecha de fin:</th>
                         <td>{{ alquiler.fecha_fin|date:"Y-m-d"|default:"-" }}</td>
                     </tr>
                     <tr>
-                        <th>Cost:</th>
-                        <td>${{ alquiler.costo|floatformat:2|default:"-" }}</td>
+                        <th>Costo:</th>
+                        <td>Q{{ alquiler.costo|floatformat:2|default:"-" }}</td>
                     </tr>
                 </table>
-                <a href="{% url 'equipmentapp' %}" class="btn btn-secondary">Back</a>
+                <a href="{% url 'equipmentapp' %}" class="btn btn-secondary">Volver</a>
             </div>
         </div>
     </div>
 {% endblock %}
+

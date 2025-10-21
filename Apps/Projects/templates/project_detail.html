@@ -1,13 +1,13 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
     <div class="d-flex justify-content-center mt-4">
         <div class="card" style="width: 90%; max-width: 1000px;">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Project Detail</h5>
+                <h5 class="mb-0">Detalle de proyecto</h5>
                 <a href="{% url 'project_update' proyecto.id_proyecto %}" class="btn btn-warning">
-                    <i class="bx bx-edit"></i> Edit
+                    <i class="bx bx-Editar"></i> Editar
                 </a>
             </div>
             <div class="card-body">
@@ -17,27 +17,27 @@
                         <td>{{ proyecto.id_proyecto }}</td>
                     </tr>
                     <tr>
-                        <th>Project Name:</th>
+                        <th>Nombre del proyecto:</th>
                         <td>{{ proyecto.nombre_proyecto }}</td>
                     </tr>
                     <tr>
-                        <th>Description:</th>
+                        <th>Descripción:</th>
                         <td>{{ proyecto.descripcion|default:"-" }}</td>
                     </tr>
                     <tr>
-                        <th>Client:</th>
+                        <th>Cliente:</th>
                         <td>{{ proyecto.id_cliente.nombre_cliente }}</td>
                     </tr>
                     <tr>
-                        <th>Start Date:</th>
+                        <th>Fecha de inicio:</th>
                         <td>{{ proyecto.fecha_inicio|date:"Y-m-d" }}</td>
                     </tr>
                     <tr>
-                        <th>End Date:</th>
+                        <th>Fecha de fin:</th>
                         <td>{{ proyecto.fecha_fin|date:"Y-m-d"|default:"-" }}</td>
                     </tr>
                     <tr>
-                        <th>Status:</th>
+                        <th>Estado:</th>
                         <td>
                             {% if proyecto.estado == 'Completado' %}
                                 <span class="badge bg-success">{{ proyecto.estado }}</span>
@@ -55,8 +55,10 @@
                         </td>
                     </tr>
                 </table>
-                <a href="{% url 'projectsapp' %}" class="btn btn-secondary">Back</a>
+                <a href="{% url 'projectsapp' %}" class="btn btn-secondary">Volver</a>
             </div>
         </div>
     </div>
 {% endblock %}
+
+

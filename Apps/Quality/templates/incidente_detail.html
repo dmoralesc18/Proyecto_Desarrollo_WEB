@@ -1,13 +1,13 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
     <div class="d-flex justify-content-center mt-4">
         <div class="card" style="width: 90%; max-width: 1000px;">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Incident Detail</h5>
+                <h5 class="mb-0">Detalle de incidente</h5>
                 <a href="{% url 'quality:incidente_update' incidente.id_incidente %}" class="btn btn-warning">
-                    <i class="bx bx-edit"></i> Edit
+                    <i class="bx bx-Editar"></i> Editar
                 </a>
             </div>
             <div class="card-body">
@@ -29,7 +29,7 @@
                                 <span class="badge bg-warning">{{ incidente.gravedad }}</span>
                             {% elif incidente.gravedad == "Alta" %}
                                 <span class="badge bg-danger">{{ incidente.gravedad }}</span>
-                            {% elif incidente.gravedad == "Crítica" %}
+                            {% elif incidente.gravedad == "CrÃ­tica" %}
                                 <span class="badge bg-dark">{{ incidente.gravedad }}</span>
                             {% else %}
                                 {{ incidente.gravedad|default:"-" }}
@@ -45,8 +45,9 @@
                         <td>{{ incidente.id_proyecto.nombre_proyecto }}</td>
                     </tr>
                 </table>
-                <a href="{% url 'quality:incidente_list' %}" class="btn btn-secondary">Back</a>
+                <a href="{% url 'quality:incidente_list' %}" class="btn btn-secondary">Volver</a>
             </div>
         </div>
     </div>
 {% endblock %}
+
