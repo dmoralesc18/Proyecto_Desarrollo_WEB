@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-4">
+  <div class="card" style="width: 95%; max-width: 1200px;">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Facturas</h5>
+      <div class="d-flex gap-2">
+        <a href="{% url 'invoice_create' %}" class="btn btn-primary btn-sm">
+          <i class="bx bx-plus"></i> Nueva factura
+        </a>
+        <a href="{% url 'payment_create' %}" class="btn btn-success btn-sm">
+          <i class="bx bx-credit-card"></i> Registrar pago
+        </a>
+        <a href="{% url 'payment_list' %}" class="btn btn-info btn-sm">
+          <i class="bx bx-list-ul"></i> Ver pagos
+        </a>
+      </div>
+    </div>
+    <div class="card-body py-2">
+      <div class="table-responsive">
+        <table class="table table-hover table-sm mb-0">
+          <thead>
+            <tr>
+              <th style="width: 8%;">ID</th>
+              <th style="width: 25%;">PROYECTO</th>
+              <th style="width: 12%;">FECHA EMISIÓN</th>
+              <th style="width: 12%;">ESTADO</th>
+              <th style="width: 15%;">MONTO</th>
+              <th style="width: 18%;">ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for f in facturas %}
+            <tr>
+              <td>#{{ f.id_factura }}</td>
+              <td>{{ f.id_proyecto.nombre_proyecto }}</td>
+              <td>{{ f.fecha_emision }}</td>
+              <td>{{ f.estado|default:"-" }}</td>
+              <td>Q{{ f.monto|floatformat:2|intcomma }}</td>
+              <td>
+                <a href="{% url 'payment_create' %}?invoice={{ f.id_factura }}" class="btn btn-sm btn-success">
+                  <i class="bx bx-credit-card"></i>
+                </a>
+                <a href="{% url 'invoice_update' f.id_factura %}" class="btn btn-sm btn-warning">
+                  <i class="bx bx-edit"></i>
+                </a>
+                <a href="{% url 'invoice_delete' f.id_factura %}" class="btn btn-sm btn-danger">
+                  <i class="bx bx-trash"></i>
+                </a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="text-center text-muted">No hay facturas registradas</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

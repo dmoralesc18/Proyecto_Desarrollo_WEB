@@ -1,5 +1,5 @@
 ﻿{% extends 'base.html' %}
-{% load static %}
+{% load static %}`r`n{% load humanize %}
 
 {% block content %}
     <!-- TABLA DE EQUIPOS -->
@@ -99,7 +99,7 @@
                                 <td>{{ alquiler.id_alquiler }}</td>
                                 <td>{{ alquiler.id_equipo.nombre }}</td>
                                 <td>{{ alquiler.id_proyecto.nombre_proyecto }}</td>
-                                <td>Q{{ alquiler.costo|floatformat:2|default:"-" }}</td>
+                                <td>Q{{ alquiler.costo|floatformat:2|intcomma|default:"-" }}</td>
                                 <td>
                                     <a href="{% url 'rental_detail' alquiler.id_alquiler %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
@@ -124,4 +124,5 @@
         </div>
     </div>
 {% endblock %}
+
 

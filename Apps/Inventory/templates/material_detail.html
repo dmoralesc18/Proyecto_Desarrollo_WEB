@@ -1,5 +1,5 @@
 ﻿{% extends 'base.html' %}
-{% load static %}
+{% load static %}`r`n{% load humanize %}
 
 {% block content %}
     <div class="d-flex justify-content-center mt-4">
@@ -48,7 +48,7 @@
                                         {{ pm.id_proveedor.nombre }}
                                     </a>
                                 </td>
-                                <td>Q{{ pm.precio_unitario|floatformat:2|default:"-" }}</td>
+                                <td>Q{{ pm.precio_unitario|floatformat:2|intcomma|default:"-" }}</td>
                                 <td>{{ pm.tiempo_entrega|default:"-" }} días</td>
                                 <td>
                                     <a href="{% url 'proveedor_detail' pm.id_proveedor.id_proveedor %}" class="btn btn-sm btn-info">
@@ -105,4 +105,5 @@
         </div>
     </div>
 {% endblock %}
+
 

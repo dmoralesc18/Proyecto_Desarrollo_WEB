@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-4">
+  <div class="card" style="width: 90%; max-width: 700px;">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Registrar pago</h5>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+        <div class="alert alert-info py-2">
+          <small>Indique quién generó el pago: seleccione "Proveedor" o "Subcontratista" y complete el campo correspondiente. Los campos vacíos se ignoran.</small>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-success">Guardar</button>
+          <a href="{% url 'financeapp' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

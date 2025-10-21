@@ -1,9 +1,12 @@
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from django.db.models import Sum, F, Value, DecimalField, Q
 from django.db.models.functions import Coalesce
 
 from Apps.Finance.models import Factura, Pago
 from Apps.Projects.models import Proyecto
+from Apps.Finance.forms import FacturaForm, PagoForm
+from django.urls import reverse_lazy
+from Apps.Finance.models import FacturaMeta, PagoMeta
 
 # Create your views here.
 class FinanceView(TemplateView):
@@ -216,5 +219,136 @@ class FinanceView(TemplateView):
             'chart_labels': labels,
             'chart_pagado': serie_pagado,
             'chart_pendiente': serie_pendiente,
+            'has_totals_data': bool((total_pagado_global or 0) or (total_pendiente_global or 0)),
+            'has_projects_data': bool(labels),
         })
         return context
+
+
+class FacturaCreateView(CreateView):
+    model = Factura
+    form_class = FacturaForm
+    template_name = 'factura_form.html'
+    success_url = reverse_lazy('financeapp')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        descripcion = form.cleaned_data.get('descripcion')
+        origen_tipo = form.cleaned_data.get('origen_tipo')
+        proveedor = form.cleaned_data.get('proveedor')
+        subcontratista = form.cleaned_data.get('subcontratista')
+        FacturaMeta.objects.update_or_create(
+            factura=self.object,
+            defaults={
+                'descripcion': descripcion,
+                'origen_tipo': origen_tipo,
+                'proveedor': proveedor if origen_tipo == 'proveedor' else None,
+                'subcontratista': subcontratista if origen_tipo == 'subcontratista' else None,
+            }
+        )
+        return response
+
+
+class PagoCreateView(CreateView):
+    model = Pago
+    form_class = PagoForm
+    template_name = 'pago_form.html'
+    success_url = reverse_lazy('financeapp')
+
+    def get_initial(self):
+        initial = super().get_initial()
+        invoice_id = self.request.GET.get('invoice')
+        if invoice_id and invoice_id.isdigit():
+            initial['id_factura'] = int(invoice_id)
+        return initial
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        descripcion = form.cleaned_data.get('descripcion')
+        origen_tipo = form.cleaned_data.get('origen_tipo')
+        proveedor = form.cleaned_data.get('proveedor')
+        subcontratista = form.cleaned_data.get('subcontratista')
+        PagoMeta.objects.update_or_create(
+            pago=self.object,
+            defaults={
+                'descripcion': descripcion,
+                'origen_tipo': origen_tipo,
+                'proveedor': proveedor if origen_tipo == 'proveedor' else None,
+                'subcontratista': subcontratista if origen_tipo == 'subcontratista' else None,
+            }
+        )
+        return response
+
+
+class FacturaListView(ListView):
+    model = Factura
+    template_name = 'factura_list.html'
+    context_object_name = 'facturas'
+    paginate_by = 20
+
+
+class FacturaUpdateView(UpdateView):
+    model = Factura
+    form_class = FacturaForm
+    template_name = 'factura_form.html'
+    success_url = reverse_lazy('invoice_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        descripcion = form.cleaned_data.get('descripcion')
+        origen_tipo = form.cleaned_data.get('origen_tipo')
+        proveedor = form.cleaned_data.get('proveedor')
+        subcontratista = form.cleaned_data.get('subcontratista')
+        FacturaMeta.objects.update_or_create(
+            factura=self.object,
+            defaults={
+                'descripcion': descripcion,
+                'origen_tipo': origen_tipo,
+                'proveedor': proveedor if origen_tipo == 'proveedor' else None,
+                'subcontratista': subcontratista if origen_tipo == 'subcontratista' else None,
+            }
+        )
+        return response
+
+
+class FacturaDeleteView(DeleteView):
+    model = Factura
+    template_name = 'factura_delete.html'
+    success_url = reverse_lazy('invoice_list')
+
+
+class PagoListView(ListView):
+    model = Pago
+    template_name = 'pago_list.html'
+    context_object_name = 'pagos'
+    paginate_by = 20
+
+
+class PagoUpdateView(UpdateView):
+    model = Pago
+    form_class = PagoForm
+    template_name = 'pago_form.html'
+    success_url = reverse_lazy('payment_list')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        descripcion = form.cleaned_data.get('descripcion')
+        origen_tipo = form.cleaned_data.get('origen_tipo')
+        proveedor = form.cleaned_data.get('proveedor')
+        subcontratista = form.cleaned_data.get('subcontratista')
+        PagoMeta.objects.update_or_create(
+            pago=self.object,
+            defaults={
+                'descripcion': descripcion,
+                'origen_tipo': origen_tipo,
+                'proveedor': proveedor if origen_tipo == 'proveedor' else None,
+                'subcontratista': subcontratista if origen_tipo == 'subcontratista' else None,
+            }
+        )
+        return response
+
+
+class PagoDeleteView(DeleteView):
+    model = Pago
+    template_name = 'pago_delete.html'
+    success_url = reverse_lazy('payment_list')

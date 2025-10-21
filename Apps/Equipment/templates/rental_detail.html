@@ -1,5 +1,5 @@
 ﻿{% extends 'base.html' %}
-{% load static %}
+{% load static %}`r`n{% load humanize %}
 
 {% block content %}
     <div class="d-flex justify-content-center mt-4">
@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <th>COSTO:</th>
-                        <td>Q{{ alquiler.costo|floatformat:2|default:"-" }}</td>
+                        <td>Q{{ alquiler.costo|floatformat:2|intcomma|default:"-" }}</td>
                     </tr>
                 </table>
                 <a href="{% url 'equipmentapp' %}" class="btn btn-secondary">Volver</a>
@@ -42,4 +42,5 @@
         </div>
     </div>
 {% endblock %}
+
 

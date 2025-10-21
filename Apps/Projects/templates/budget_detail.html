@@ -1,5 +1,5 @@
 ﻿{% extends 'base.html' %}
-{% load static %}
+{% load static %}`r`n{% load humanize %}
 
 {% block content %}
     <div class="d-flex justify-content-center mt-4">
@@ -22,7 +22,7 @@
                     </tr>
                     <tr>
                         <th>Monto total:</th>
-                        <td>Q{{ presupuesto.monto_total|floatformat:2 }}</td>
+                        <td>Q{{ presupuesto.monto_total|floatformat:2|intcomma }}</td>
                     </tr>
                     <tr>
                         <th>DescripciÃ³n:</th>
@@ -34,4 +34,5 @@
         </div>
     </div>
 {% endblock %}
+
 

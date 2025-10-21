@@ -1,5 +1,5 @@
 ﻿{% extends 'base.html' %}
-{% load static %}
+{% load static %}`r`n{% load humanize %}
 
 {% block content %}
     <!-- TABLA DE PROYECTOS -->
@@ -96,7 +96,7 @@
                             <tr>
                                 <td>{{ presupuesto.id_presupuesto }}</td>
                                 <td>{{ presupuesto.id_proyecto.nombre_proyecto }}</td>
-                                <td>Q{{ presupuesto.monto_total|floatformat:2 }}</td>
+                                <td>Q{{ presupuesto.monto_total|floatformat:2|intcomma }}</td>
                                 <td>{{ presupuesto.DESCRIPCIÓN|truncatewords:5|default:"-" }}</td>
                                 <td>
                                     <a href="{% url 'budget_detail' presupuesto.id_presupuesto %}" class="btn btn-sm btn-info">
@@ -122,5 +122,6 @@
         </div>
     </div>
 {% endblock %}
+
 
 

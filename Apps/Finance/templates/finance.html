@@ -1,5 +1,5 @@
 ﻿{% extends 'base.html' %}
-{% load static %}
+{% load static %}`r`n{% load humanize %}
 
 {% block content %}
 
@@ -49,7 +49,7 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Facturado</span>
-          <h4 class="mb-0">Q{{ total_facturado_global|floatformat:2 }}</h4>
+          <h4 class="mb-0">Q{{ total_facturado_global|floatformat:2|intcomma }}</h4>
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Pagado</span>
-          <h4 class="mb-0 text-success">Q{{ total_pagado_global|floatformat:2 }}</h4>
+          <h4 class="mb-0 text-success">Q{{ total_pagado_global|floatformat:2|intcomma }}</h4>
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Pendiente</span>
-          <h4 class="mb-0 text-danger">Q{{ total_pendiente_global|floatformat:2 }}</h4>
+          <h4 class="mb-0 text-danger">Q{{ total_pendiente_global|floatformat:2|intcomma }}</h4>
         </div>
       </div>
     </div>
@@ -85,7 +85,7 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Presupuesto</span>
-          <h4 class="mb-0">Q{{ presupuesto_total|floatformat:2 }}</h4>
+          <h4 class="mb-0">Q{{ presupuesto_total|floatformat:2|intcomma }}</h4>
         </div>
       </div>
     </div>
@@ -93,13 +93,19 @@
       <div class="card">
         <div class="card-body">
           <span class="d-block text-muted">Presupuesto restante</span>
-          <h4 class="mb-0">Q{{ presupuesto_restante|floatformat:2 }}</h4>
+          <h4 class="mb-0">Q{{ presupuesto_restante|floatformat:2|intcomma }}</h4>
         </div>
       </div>
     </div>
   </div>
   {% endif %}
 
+  <div class="row mb-2">
+    <div class="col d-flex justify-content-end gap-2">
+      <a href="{% url 'invoice_list' %}" class="btn btn-outline-primary btn-sm">Ver facturas</a>
+      <a href="{% url 'payment_list' %}" class="btn btn-outline-info btn-sm">Ver pagos</a>
+    </div>
+  </div>
   <!-- Indicadores / Gráficos -->
   <div class="row mb-4">
     <div class="col-md-6">
@@ -109,7 +115,11 @@
           <small class="text-muted">Alcance actual del filtro</small>
         </div>
         <div class="card-body">
-          <div id="finance-total-chart"></div>
+          {% if has_totals_data %}
+            <div id="finance-total-chart"></div>
+          {% else %}
+            <div class="text-center text-muted py-5">Sin datos para mostrar</div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -120,7 +130,11 @@
           <small class="text-muted">Pagado vs Pendiente</small>
         </div>
         <div class="card-body">
-          <div id="finance-projects-chart"></div>
+          {% if has_projects_data %}
+            <div id="finance-projects-chart"></div>
+          {% else %}
+            <div class="text-center text-muted py-5">Sin datos por proyecto</div>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -131,7 +145,7 @@
         <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="card-title mb-0">Pagos pendientes</h5>
           <div class="text-muted">
-            Total pendiente: Q{{ total_pendiente_global|floatformat:2 }} | Total pagado: Q{{ total_pagado_global|floatformat:2 }}
+            Total pendiente: Q{{ total_pendiente_global|floatformat:2|intcomma }} | Total pagado: Q{{ total_pagado_global|floatformat:2|intcomma }}
           </div>
         </div>
           <div class="table-responsive">
@@ -152,9 +166,9 @@
                 <td>#{{ factura.id_factura }}</td>
                 <td>{{ factura.id_proyecto.nombre_proyecto }}</td>
                 <td>{{ factura.fecha_emision }}</td>
-                <td>Q{{ factura.monto|floatformat:2 }}</td>
-                <td>Q{{ factura.total_pagado|floatformat:2 }}</td>
-                <td><strong>Q{{ factura.saldo|floatformat:2 }}</strong></td>
+                <td>Q{{ factura.monto|floatformat:2|intcomma }}</td>
+                <td>Q{{ factura.total_pagado|floatformat:2|intcomma }}</td>
+                <td><strong>Q{{ factura.saldo|floatformat:2|intcomma }}</strong></td>
               </tr>
               {% empty %}
               <tr>
@@ -191,13 +205,13 @@
               {% with pendiente=p.total_facturado|floatformat:2 %}
               <tr>
                 <td>{{ p.nombre_proyecto }}</td>
-                <td>Q{{ p.presupuesto_total_proyecto|floatformat:2 }}</td>
-                <td>Q{{ p.total_facturado|floatformat:2 }}</td>
-                <td>Q{{ p.total_pagado|floatformat:2 }}</td>
-                <td>Q{{ p.pendiente_facturas|floatformat:2 }}</td>
+                <td>Q{{ p.presupuesto_total_proyecto|floatformat:2|intcomma }}</td>
+                <td>Q{{ p.total_facturado|floatformat:2|intcomma }}</td>
+                <td>Q{{ p.total_pagado|floatformat:2|intcomma }}</td>
+                <td>Q{{ p.pendiente_facturas|floatformat:2|intcomma }}</td>
                 <td>
                   {% if p.presupuesto_total_proyecto %}
-                    Q{{ p.presupuesto_restante_proyecto|floatformat:2 }}
+                    Q{{ p.presupuesto_restante_proyecto|floatformat:2|intcomma }}
                   {% else %}
                     -
                   {% endif %}
@@ -257,6 +271,13 @@
   </script>
 </div>
 {% endblock %}
+
+
+
+
+
+
+
 
 
 
