@@ -2,5 +2,255 @@
 {% load static %}
 
 {% block content %}
-<h1>Finance Page</h1>
+
+<div class="container-xxl">
+  <!-- Filtros -->
+  <form method="get" class="row g-3 mb-4">
+    <div class="col-sm-6 col-md-4">
+      <label class="form-label">Proyecto</label>
+      <select name="project" class="form-select" onchange="this.form.submit()">
+        <option value="">Todos</option>
+        {% for pr in projects %}
+          <option value="{{ pr.id_proyecto }}" {% if selected_project == pr.id_proyecto %}selected{% endif %}>{{ pr.nombre_proyecto }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <label class="form-label">Estado de factura</label>
+      <select name="status" class="form-select" onchange="this.form.submit()">
+        <option value="" {% if not selected_status %}selected{% endif %}>Todas</option>
+        <option value="Pendiente" {% if selected_status == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+        <option value="Pagada" {% if selected_status == 'Pagada' %}selected{% endif %}>Pagada</option>
+      </select>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <label class="form-label">Tipo de fecha</label>
+      <select name="date_type" class="form-select" onchange="this.form.submit()">
+        <option value="emision" {% if date_type == 'emision' or not date_type %}selected{% endif %}>Fecha de emisión</option>
+        <option value="pago" {% if date_type == 'pago' %}selected{% endif %}>Fecha de pago</option>
+      </select>
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <label class="form-label">Desde</label>
+      <input type="date" name="date_from" class="form-control" value="{{ date_from|default:'' }}" onchange="this.form.submit()" />
+    </div>
+    <div class="col-sm-6 col-md-2">
+      <label class="form-label">Hasta</label>
+      <input type="date" name="date_to" class="form-control" value="{{ date_to|default:'' }}" onchange="this.form.submit()" />
+    </div>
+    <div class="col-sm-12 col-md-2 d-flex align-items-end">
+      <a href="{% url 'financeapp' %}" class="btn btn-outline-secondary w-100">Limpiar filtros</a>
+    </div>
+  </form>
+
+  <!-- KPIs -->
+  <div class="row mb-4">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <span class="d-block text-muted">Facturado</span>
+          <h4 class="mb-0">${{ total_facturado_global|floatformat:2 }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <span class="d-block text-muted">Pagado</span>
+          <h4 class="mb-0 text-success">${{ total_pagado_global|floatformat:2 }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <span class="d-block text-muted">Pendiente</span>
+          <h4 class="mb-0 text-danger">${{ total_pendiente_global|floatformat:2 }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <span class="d-block text-muted">% Pagado</span>
+          <h4 class="mb-0">{{ pct_pagado|floatformat:1 }}%</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if presupuesto_total and presupuesto_total|floatformat != '0.00' %}
+  <div class="row mb-4">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <span class="d-block text-muted">Presupuesto</span>
+          <h4 class="mb-0">${{ presupuesto_total|floatformat:2 }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <span class="d-block text-muted">Presupuesto restante</span>
+          <h4 class="mb-0">${{ presupuesto_restante|floatformat:2 }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Indicadores / Gráficos -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Pagado vs Pendiente</h5>
+          <small class="text-muted">Alcance actual del filtro</small>
+        </div>
+        <div class="card-body">
+          <div id="finance-total-chart"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Comparativa por proyecto</h5>
+          <small class="text-muted">Pagado vs Pendiente</small>
+        </div>
+        <div class="card-body">
+          <div id="finance-projects-chart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Pagos pendientes</h5>
+          <div class="text-muted">
+            Total pendiente: ${{ total_pendiente_global|floatformat:2 }} | Total pagado: ${{ total_pagado_global|floatformat:2 }}
+          </div>
+        </div>
+          <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Factura</th>
+                <th>Proyecto</th>
+                <th>Fecha emisión</th>
+                <th>Monto</th>
+                <th>Pagado</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for factura in facturas_pendientes %}
+              <tr>
+                <td>#{{ factura.id_factura }}</td>
+                <td>{{ factura.id_proyecto.nombre_proyecto }}</td>
+                <td>{{ factura.fecha_emision }}</td>
+                <td>${{ factura.monto|floatformat:2 }}</td>
+                <td>${{ factura.total_pagado|floatformat:2 }}</td>
+                <td><strong>${{ factura.saldo|floatformat:2 }}</strong></td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="6" class="text-center text-muted">No hay pagos pendientes.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Resumen por proyecto</h5>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Proyecto</th>
+                <th>Presupuesto</th>
+                <th>Facturado</th>
+                <th>Pagado</th>
+                <th>Pendiente facturas</th>
+                <th>Restante presupuesto</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in resumen_proyectos %}
+              {% with pendiente=p.total_facturado|floatformat:2 %}
+              <tr>
+                <td>{{ p.nombre_proyecto }}</td>
+                <td>${{ p.presupuesto_total_proyecto|floatformat:2 }}</td>
+                <td>${{ p.total_facturado|floatformat:2 }}</td>
+                <td>${{ p.total_pagado|floatformat:2 }}</td>
+                <td>${{ p.pendiente_facturas|floatformat:2 }}</td>
+                <td>
+                  {% if p.presupuesto %}
+                    ${{ p.presupuesto_restante_proyecto|floatformat:2 }}
+                  {% else %}
+                    -
+                  {% endif %}
+                </td>
+              </tr>
+              {% endwith %}
+              {% empty %}
+              <tr>
+                <td colspan="6" class="text-center text-muted">No hay proyectos registrados.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Scripts de gráficos -->
+  <script>
+    (function() {
+      const totalPagado = Number("{{ total_pagado_global|default:0 }}");
+      const totalPendiente = Number("{{ total_pendiente_global|default:0 }}");
+
+      // Donut Pagado vs Pendiente
+      const donutOptions = {
+        series: [totalPagado, totalPendiente],
+        labels: ['Pagado', 'Pendiente'],
+        chart: { type: 'donut', height: 290 },
+        dataLabels: { enabled: true },
+        colors: ['#28a745', '#dc3545'],
+        legend: { position: 'bottom' },
+      };
+      const donutChart = new ApexCharts(document.querySelector('#finance-total-chart'), donutOptions);
+      donutChart.render();
+
+      // Barras por proyecto: Pagado vs Pendiente
+      const labels = {{ chart_labels|safe }};
+      const seriePagado = {{ chart_pagado|safe }};
+      const seriePendiente = {{ chart_pendiente|safe }};
+      const barOptions = {
+        series: [
+          { name: 'Pagado', data: seriePagado },
+          { name: 'Pendiente', data: seriePendiente },
+        ],
+        chart: { type: 'bar', height: 320, stacked: true, toolbar: { show: false } },
+        plotOptions: { bar: { horizontal: true, barHeight: '65%' } },
+        xaxis: { categories: labels },
+        colors: ['#28a745', '#ffc107'],
+        legend: { position: 'bottom' },
+      };
+      const barChart = new ApexCharts(document.querySelector('#finance-projects-chart'), barOptions);
+      barChart.render();
+    })();
+  </script>
+</div>
 {% endblock %}
