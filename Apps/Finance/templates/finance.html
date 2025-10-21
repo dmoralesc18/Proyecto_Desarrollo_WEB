@@ -26,7 +26,7 @@
     <div class="col-sm-6 col-md-4">
       <label class="form-label">Tipo de fecha</label>
       <select name="date_type" class="form-select" onchange="this.form.submit()">
-        <option value="emision" {% if date_type == 'emision' or not date_type %}selected{% endif %}>Fecha de emisiÃ³n</option>
+        <option value="emision" {% if date_type == 'emision' or not date_type %}selected{% endif %}>Fecha de emisión</option>
         <option value="pago" {% if date_type == 'pago' %}selected{% endif %}>Fecha de pago</option>
       </select>
     </div>
@@ -100,7 +100,7 @@
   </div>
   {% endif %}
 
-  <!-- Indicadores / GrÃ¡ficos -->
+  <!-- Indicadores / Gráficos -->
   <div class="row mb-4">
     <div class="col-md-6">
       <div class="card h-100">
@@ -140,7 +140,7 @@
               <tr>
                 <th>Factura</th>
                 <th>Proyecto</th>
-                <th>Fecha emisiÃ³n</th>
+                <th>Fecha emisión</th>
                 <th>Monto</th>
                 <th>Pagado</th>
                 <th>Saldo</th>
@@ -196,7 +196,7 @@
                 <td>Q{{ p.total_pagado|floatformat:2 }}</td>
                 <td>Q{{ p.pendiente_facturas|floatformat:2 }}</td>
                 <td>
-                  {% if p.presupuesto %}
+                  {% if p.presupuesto_total_proyecto %}
                     Q{{ p.presupuesto_restante_proyecto|floatformat:2 }}
                   {% else %}
                     -
@@ -215,7 +215,10 @@
       </div>
     </div>
   </div>
-  <!-- Scripts de grÃ¡ficos -->
+  <!-- Scripts de Gráficos -->
+  {{ chart_labels|json_script:"finance-chart-labels" }}
+  {{ chart_pagado|json_script:"finance-chart-pagado" }}
+  {{ chart_pendiente|json_script:"finance-chart-pendiente" }}
   <script>
     (function() {
       const totalPagado = Number("{{ total_pagado_global|default:0 }}");
@@ -234,9 +237,9 @@
       donutChart.render();
 
       // Barras por proyecto: Pagado vs Pendiente
-      const labels = {{ chart_labels|safe }};
-      const seriePagado = {{ chart_pagado|safe }};
-      const seriePendiente = {{ chart_pendiente|safe }};
+      const labels = JSON.parse(document.getElementById('finance-chart-labels').textContent);
+      const seriePagado = JSON.parse(document.getElementById('finance-chart-pagado').textContent);
+      const seriePendiente = JSON.parse(document.getElementById('finance-chart-pendiente').textContent);
       const barOptions = {
         series: [
           { name: 'Pagado', data: seriePagado },
@@ -254,4 +257,7 @@
   </script>
 </div>
 {% endblock %}
+
+
+
 
