@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="container-xxl">
-  <!-- Filtros -->
+
   <form method="get" class="row g-3 mb-4">
     <div class="col-sm-6 col-md-4">
       <label class="form-label">Proyecto</label>
@@ -43,7 +43,46 @@
     </div>
   </form>
 
-  <!-- KPIs -->
+  <div class="row mb-2">
+    <div class="col d-flex justify-content-end gap-2">
+      <a href="{% url 'invoice_list' %}" class="btn btn-outline-primary btn-sm">Ver facturas</a>
+      <a href="{% url 'payment_list' %}" class="btn btn-outline-info btn-sm">Ver pagos</a>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Facturado vs Pendiente</h5>
+          <small class="text-muted">Alcance actual del filtro</small>
+        </div>
+        <div class="card-body">
+          {% if has_totals_data %}
+            <div id="finance-total-chart"></div>
+          {% else %}
+            <div class="text-center text-muted py-5">Sin datos para mostrar</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Comparativa por proyecto</h5>
+          <small class="text-muted">Pagado vs Pendiente</small>
+        </div>
+        <div class="card-body">
+          {% if has_projects_data %}
+            <div id="finance-projects-chart"></div>
+          {% else %}
+            <div class="text-center text-muted py-5">Sin datos por proyecto</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <div class="row mb-4">
     <div class="col-sm-6 col-lg-3">
       <div class="card">
@@ -99,46 +138,7 @@
     </div>
   </div>
   {% endif %}
-
-  <div class="row mb-2">
-    <div class="col d-flex justify-content-end gap-2">
-      <a href="{% url 'invoice_list' %}" class="btn btn-outline-primary btn-sm">Ver facturas</a>
-      <a href="{% url 'payment_list' %}" class="btn btn-outline-info btn-sm">Ver pagos</a>
-    </div>
-  </div>
-  <!-- Indicadores / Gráficos -->
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <div class="card h-100">
-        <div class="card-header">
-          <h5 class="card-title mb-0">Pagado vs Pendiente</h5>
-          <small class="text-muted">Alcance actual del filtro</small>
-        </div>
-        <div class="card-body">
-          {% if has_totals_data %}
-            <div id="finance-total-chart"></div>
-          {% else %}
-            <div class="text-center text-muted py-5">Sin datos para mostrar</div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card h-100">
-        <div class="card-header">
-          <h5 class="card-title mb-0">Comparativa por proyecto</h5>
-          <small class="text-muted">Pagado vs Pendiente</small>
-        </div>
-        <div class="card-body">
-          {% if has_projects_data %}
-            <div id="finance-projects-chart"></div>
-          {% else %}
-            <div class="text-center text-muted py-5">Sin datos por proyecto</div>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
+ 
   <div class="row mb-4">
     <div class="col-12">
       <div class="card">
@@ -229,7 +229,7 @@
       </div>
     </div>
   </div>
-  <!-- Scripts de Gráficos -->
+
   {{ chart_labels|json_script:"finance-chart-labels" }}
   {{ chart_pagado|json_script:"finance-chart-pagado" }}
   {{ chart_pendiente|json_script:"finance-chart-pendiente" }}
@@ -238,7 +238,7 @@
       const totalPagado = Number("{{ total_pagado_global|default:0 }}");
       const totalPendiente = Number("{{ total_pendiente_global|default:0 }}");
 
-      // Donut Pagado vs Pendiente
+
       const donutOptions = {
         series: [totalPagado, totalPendiente],
         labels: ['Pagado', 'Pendiente'],
@@ -250,7 +250,7 @@
       const donutChart = new ApexCharts(document.querySelector('#finance-total-chart'), donutOptions);
       donutChart.render();
 
-      // Barras por proyecto: Pagado vs Pendiente
+
       const labels = JSON.parse(document.getElementById('finance-chart-labels').textContent);
       const seriePagado = JSON.parse(document.getElementById('finance-chart-pagado').textContent);
       const seriePendiente = JSON.parse(document.getElementById('finance-chart-pendiente').textContent);
@@ -271,14 +271,3 @@
   </script>
 </div>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
