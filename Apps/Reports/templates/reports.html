@@ -1,7 +1,85 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block content %}
-<h1>Página de reportes</h1>
+<div class="container-xxl">
+  <div class="row">
+    <!-- Card: Finanzas -->
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Finanzas</h5>
+          <a href="{% url 'financeapp' %}" class="btn btn-sm btn-primary">Ver</a>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <span class="d-block text-muted">Facturado</span>
+            <h4 class="mb-0">Q{{ rep_total_facturado|floatformat:2|intcomma }}</h4>
+          </div>
+          <div class="mb-3">
+            <span class="d-block text-muted">Pagado</span>
+            <h4 class="mb-0 text-success">Q{{ rep_total_pagado|floatformat:2|intcomma }}</h4>
+          </div>
+          <div class="mb-3">
+            <span class="d-block text-muted">Pendiente</span>
+            <h4 class="mb-0 text-danger">Q{{ rep_total_pendiente|floatformat:2|intcomma }}</h4>
+          </div>
+          <div class="d-flex gap-2">
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'invoice_list' %}">Facturas</a>
+            <a class="btn btn-outline-info btn-sm" href="{% url 'payment_list' %}">Pagos</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Proyectos -->
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Proyectos</h5>
+          <a href="{% url 'projectsapp' %}" class="btn btn-sm btn-primary">Ver</a>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <span class="d-block text-muted">Proyectos</span>
+            <h4 class="mb-0">{{ rep_proyectos_count|intcomma }}</h4>
+          </div>
+          <div class="mb-3">
+            <span class="d-block text-muted">Presupuesto total</span>
+            <h4 class="mb-0">Q{{ rep_presupuesto_total|floatformat:2|intcomma }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card: Calidad -->
+    <div class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Calidad</h5>
+          <a href="{% url 'quality:qualityapp' %}" class="btn btn-sm btn-primary">Ver</a>
+        </div>
+        <div class="card-body">
+          <div class="mb-2">
+            <span class="d-block text-muted">Inspecciones</span>
+            <div>✅ Cumple: <strong>{{ rep_inspecciones_cumple|intcomma }}</strong></div>
+            <div>⚠️ No cumple: <strong>{{ rep_inspecciones_no_cumple|intcomma }}</strong></div>
+          </div>
+          <hr/>
+          <div class="mb-2">
+            <span class="d-block text-muted">Certificaciones</span>
+            <div>Próximas (hasta {{ next_30 }}): <strong>{{ rep_certificaciones_proximas|intcomma }}</strong></div>
+            <div>Vencidas: <strong class="text-danger">{{ rep_certificaciones_vencidas|intcomma }}</strong></div>
+          </div>
+          <div class="d-flex gap-2 mt-2">
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'quality:inspeccion_list' %}">Inspecciones</a>
+            <a class="btn btn-outline-secondary btn-sm" href="{% url 'quality:certificacion_list' %}">Certificaciones</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
