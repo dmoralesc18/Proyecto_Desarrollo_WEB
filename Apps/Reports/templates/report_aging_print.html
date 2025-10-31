@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Aging de facturas</title>
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 12px; color: #222; }
+    h1, h2, h3, h4 { margin: 0 0 8px; }
+    .meta { margin-bottom: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0; }
+    .card { border: 1px solid #ddd; padding: 10px; border-radius: 6px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 6px 8px; }
+    th { background: #f6f6f6; text-align: left; }
+    .right { text-align: right; }
+    .muted { color: #666; }
+    .totals { margin: 12px 0; }
+    @media print {
+      .noprint { display: none; }
+    }
+  </style>
+  <script>
+    window.addEventListener('load', function(){
+      setTimeout(function(){ window.print(); }, 200);
+    });
+  </script>
+  {% load humanize %}
+</head>
+<body>
+  <div class="noprint" style="text-align:right; margin-bottom:8px">
+    <button onclick="window.print()">Imprimir</button>
+  </div>
+
+  <h2>Aging de facturas</h2>
+  <div class="meta muted">
+    Proyecto: <strong>{{ selected_project_name|default:'Todos' }}</strong>
+    | Estado: <strong>{{ selected_status|default:'Todos' }}</strong>
+    | Tipo fecha: <strong>{{ date_type }}</strong>
+    | Rango: <strong>{{ date_from|default:'-' }} a {{ date_to|default:'-' }}</strong>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="muted">0 - 30 días</div><div><strong>Q{{ aging_buckets.0_30|floatformat:2|intcomma }}</strong></div></div>
+    <div class="card"><div class="muted">31 - 60 días</div><div><strong>Q{{ aging_buckets.31_60|floatformat:2|intcomma }}</strong></div></div>
+    <div class="card"><div class="muted">61 - 90 días</div><div><strong>Q{{ aging_buckets.61_90|floatformat:2|intcomma }}</strong></div></div>
+    <div class="card"><div class="muted">Mayor a 90 días</div><div><strong>Q{{ aging_buckets.gt_90|floatformat:2|intcomma }}</strong></div></div>
+  </div>
+
+  <div class="totals">Total pendiente: <strong>Q{{ aging_total|floatformat:2|intcomma }}</strong></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Factura</th>
+        <th>Proyecto</th>
+        <th>Fecha emisión</th>
+        <th class="right">Monto</th>
+        <th class="right">Pagado</th>
+        <th class="right">Saldo</th>
+        <th class="right">Días</th>
+        <th>Bucket</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in aging_rows %}
+      <tr>
+        <td>#{{ r.id }}</td>
+        <td>{{ r.proyecto }}</td>
+        <td>{{ r.fecha_emision }}</td>
+        <td class="right">Q{{ r.monto|floatformat:2|intcomma }}</td>
+        <td class="right">Q{{ r.pagado|floatformat:2|intcomma }}</td>
+        <td class="right"><strong>Q{{ r.saldo|floatformat:2|intcomma }}</strong></td>
+        <td class="right">{{ r.dias }}</td>
+        <td>{{ r.bucket }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8" class="muted">No hay facturas pendientes.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

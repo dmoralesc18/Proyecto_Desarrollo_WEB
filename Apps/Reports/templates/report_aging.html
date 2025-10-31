@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container-xxl">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0">Aging de facturas</h4>
+    <div class="d-flex gap-2">
+      <a class="btn btn-sm btn-secondary" href="{% url 'reportsapp' %}">Volver</a>
+      <form method="get">
+        <input type="hidden" name="project" value="{{ selected_project }}">
+        <input type="hidden" name="status" value="{{ selected_status }}">
+        <input type="hidden" name="date_type" value="{{ date_type }}">
+        <input type="hidden" name="date_from" value="{{ date_from|default:'' }}">
+        <input type="hidden" name="date_to" value="{{ date_to|default:'' }}">
+        <input type="hidden" name="export" value="csv">
+        <button class="btn btn-sm btn-outline-primary" type="submit">Exportar CSV</button>
+      </form>
+      <form method="get" target="_blank">
+        <input type="hidden" name="project" value="{{ selected_project }}">
+        <input type="hidden" name="status" value="{{ selected_status }}">
+        <input type="hidden" name="date_type" value="{{ date_type }}">
+        <input type="hidden" name="date_from" value="{{ date_from|default:'' }}">
+        <input type="hidden" name="date_to" value="{{ date_to|default:'' }}">
+        <input type="hidden" name="export" value="print">
+        <button class="btn btn-sm btn-outline-secondary" type="submit">Exportar PDF</button>
+      </form>
+    </div>
+  </div>
+
+  <form method="get" class="row g-3 mb-4">
+    <div class="col-sm-6 col-md-3">
+      <label class="form-label">Proyecto</label>
+      <select name="project" class="form-select" onchange="this.form.submit()">
+        <option value="">Todos</option>
+        {% for pr in projects %}
+          <option value="{{ pr.id_proyecto }}" {% if selected_project|stringformat:'s' == pr.id_proyecto|stringformat:'s' %}selected{% endif %}>{{ pr.nombre_proyecto }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <label class="form-label">Estado</label>
+      <select name="status" class="form-select" onchange="this.form.submit()">
+        <option value="" {% if not selected_status %}selected{% endif %}>Todos</option>
+        <option value="Pendiente" {% if selected_status == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+        <option value="Pagada" {% if selected_status == 'Pagada' %}selected{% endif %}>Pagada</option>
+      </select>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <label class="form-label">Tipo de fecha</label>
+      <select name="date_type" class="form-select" onchange="this.form.submit()">
+        <option value="emision" {% if date_type == 'emision' %}selected{% endif %}>Fecha de emisión</option>
+        <option value="pago" {% if date_type == 'pago' %}selected{% endif %}>Fecha de pago</option>
+      </select>
+    </div>
+    <div class="col-sm-6 col-md-3 d-flex align-items-end">
+      <a href="{% url 'report_aging' %}" class="btn btn-outline-secondary w-100">Limpiar filtros</a>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <label class="form-label">Desde</label>
+      <input type="date" name="date_from" class="form-control" value="{{ date_from|default:'' }}" onchange="this.form.submit()" />
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <label class="form-label">Hasta</label>
+      <input type="date" name="date_to" class="form-control" value="{{ date_to|default:'' }}" onchange="this.form.submit()" />
+    </div>
+  </form>
+
+  <div class="row mb-4">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card h-100"><div class="card-body">
+        <span class="d-block text-muted">0 - 30 días</span>
+        <h4 class="mb-0">Q{{ aging_buckets.0_30|floatformat:2|intcomma }}</h4>
+      </div></div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card h-100"><div class="card-body">
+        <span class="d-block text-muted">31 - 60 días</span>
+        <h4 class="mb-0">Q{{ aging_buckets.31_60|floatformat:2|intcomma }}</h4>
+      </div></div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card h-100"><div class="card-body">
+        <span class="d-block text-muted">61 - 90 días</span>
+        <h4 class="mb-0">Q{{ aging_buckets.61_90|floatformat:2|intcomma }}</h4>
+      </div></div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="card h-100"><div class="card-body">
+        <span class="d-block text-muted">Mayor a 90 días</span>
+        <h4 class="mb-0 text-danger">Q{{ aging_buckets.gt_90|floatformat:2|intcomma }}</h4>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">Facturas pendientes</h5>
+          <div class="text-muted">Total pendiente: Q{{ aging_total|floatformat:2|intcomma }}</div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Factura</th>
+                <th>Proyecto</th>
+                <th>Fecha emisión</th>
+                <th>Monto</th>
+                <th>Pagado</th>
+                <th>Saldo</th>
+                <th>Días</th>
+                <th>Bucket</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in aging_rows %}
+              <tr>
+                <td>#{{ r.id }}</td>
+                <td>{{ r.proyecto }}</td>
+                <td>{{ r.fecha_emision }}</td>
+                <td>Q{{ r.monto|floatformat:2|intcomma }}</td>
+                <td>Q{{ r.pagado|floatformat:2|intcomma }}</td>
+                <td><strong>Q{{ r.saldo|floatformat:2|intcomma }}</strong></td>
+                <td>{{ r.dias }}</td>
+                <td>{{ r.bucket }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="8" class="text-center text-muted">No hay facturas pendientes.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
