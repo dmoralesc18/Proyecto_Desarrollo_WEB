@@ -1,0 +1,87 @@
+/* Tema oscuro ligero por atributo data-theme-mode="dark" en <html> */
+
+/* Preferimos sobreescribir variables y algunos fondos/textos clave
+   para minimizar impacto en el theme existente. */
+
+[data-theme-mode="dark"] {
+  color-scheme: dark;
+
+  /* Bootstrap variables base */
+  --bs-body-bg: #12161c;
+  --bs-body-bg-rgb: 18, 22, 28;
+  --bs-body-color: #c8d1dc;
+  --bs-body-color-rgb: 200, 209, 220;
+
+  --bs-dark: #0e1217;
+  --bs-light: #1a2028;
+
+  /* Grises del theme */
+  --bs-gray: rgba(200, 209, 220, 0.1);
+  --bs-gray-25: rgba(200, 209, 220, 0.025);
+  --bs-gray-50: rgba(200, 209, 220, 0.05);
+  --bs-gray-dark: rgba(200, 209, 220, 0.8);
+
+  /* Bordes y ejes ligeros */
+  --bs-border-color: #2b3440;
+}
+
+/* Fondos de layout y contenedores principales */
+[data-theme-mode="dark"] body {
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-body-color) !important;
+}
+
+[data-theme-mode="dark"] .layout-navbar,
+[data-theme-mode="dark"] .bg-navbar-theme {
+  background-color: #161b22 !important;
+}
+
+[data-theme-mode="dark"] .layout-menu.bg-menu-theme,
+[data-theme-mode="dark"] .menu-vertical.menu.bg-menu-theme {
+  background-color: #0f141a !important;
+  color: var(--bs-body-color);
+}
+
+[data-theme-mode="dark"] .menu-inner .menu-item .menu-link,
+[data-theme-mode="dark"] .menu-inner .menu-header-text,
+[data-theme-mode="dark"] .app-brand-text {
+  color: var(--bs-body-color) !important;
+}
+
+/* Cards */
+[data-theme-mode="dark"] .card {
+  background-color: #151a21 !important;
+  color: var(--bs-body-color) !important;
+  border-color: var(--bs-border-color) !important;
+}
+
+/* Tablas y elementos comunes */
+[data-theme-mode="dark"] .table,
+[data-theme-mode="dark"] .form-control,
+[data-theme-mode="dark"] .form-select,
+[data-theme-mode="dark"] .dropdown-menu,
+[data-theme-mode="dark"] .list-group-item {
+  background-color: #151a21 !important;
+  color: var(--bs-body-color) !important;
+  border-color: var(--bs-border-color) !important;
+}
+
+/* Bordes sutiles */
+[data-theme-mode="dark"] .border,
+[data-theme-mode="dark"] .border-top,
+[data-theme-mode="dark"] .border-end,
+[data-theme-mode="dark"] .border-bottom,
+[data-theme-mode="dark"] .border-start {
+  border-color: var(--bs-border-color) !important;
+}
+
+/* Texto atenuado y muteds */
+[data-theme-mode="dark"] .text-muted {
+  color: rgba(200, 209, 220, 0.6) !important;
+}
+
+/* Overlay */
+[data-theme-mode="dark"] .layout-overlay {
+  background: #0b0f14 !important;
+}
+

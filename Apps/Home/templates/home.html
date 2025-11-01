@@ -1,32 +1,218 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row">
-                <div class="col-lg-8 mb-4 order-0">
-                  <div class="card">
-                    <div class="d-flex align-items-end row">
-                      <div class="col-sm-7">
-                        <div class="card-body">
-                        <h3 class="card-title text-primary">Bienvenido al Sistema de Gestión</h3>
-                        <p class="mb-4">
-                        Este es el <span class="fw-bold">panel</span> de control principal.
-                        </p>
-                        </div>
-                      </div>
-                      <div class="col-sm-5 text-center text-sm-right">
-                        <div class="card-body pb-0 px-0 px-md-4">
-                          <img
-                            src="{% static 'img/illustrations/man-with-laptop-light.png' %}"
-                            height="140"
-                            alt="View Badge User"
-                            data-app-dark-img="{% static 'img/illustrations/man-with-laptop-dark.png' %}"
-                            data-app-light-img="{% static 'img/illustrations/man-with-laptop-light.png' %}"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-<p>Welcome to the Home Page!</p>
+  <div class="row">
+    <div class="col-12 mb-4">
+      <div class="card">
+        <div class="d-flex align-items-end row">
+          <div class="col-sm-7">
+            <div class="card-body">
+              <h3 class="card-title text-primary">Bienvenido al Sistema de Gestión</h3>
+              <p class="mb-0">Este es el <span class="fw-bold">panel</span> de control principal.</p>
+            </div>
+          </div>
+          <div class="col-sm-5 text-center text-sm-right">
+            <div class="card-body pb-0 px-0 px-md-4">
+              <img
+                src="{% static 'img/illustrations/man-with-laptop-light.png' %}"
+                height="140"
+                alt="Bienvenido"
+                data-app-dark-img="{% static 'img/illustrations/man-with-laptop-dark.png' %}"
+                data-app-light-img="{% static 'img/illustrations/man-with-laptop-light.png' %}"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <h5 class="mb-0">Resumen de páginas</h5>
+      <small class="text-muted">Accesos rápidos a los módulos</small>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-start">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-crown bx-sm"></i></div>
+          <div class="w-100">
+            <div class="d-flex align-items-center mb-1">
+              <h6 class="mb-0">Proyectos</h6>
+              <span class="badge bg-primary ms-auto">{{ summary.projects.total }}</span>
+            </div>
+            <small class="text-muted">Resumen general</small>
+            <div class="mt-2 d-flex gap-2 flex-wrap">
+              <span class="badge bg-label-success">Activos: {{ summary.projects.active }}</span>
+              <span class="badge bg-label-secondary">Finalizados: {{ summary.projects.finished }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-start">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-table bx-sm"></i></div>
+          <div class="w-100">
+            <div class="d-flex align-items-center mb-1">
+              <h6 class="mb-0">Calidad</h6>
+              <span class="badge bg-info ms-auto">{{ summary.quality.inspections }}</span>
+            </div>
+            <small class="text-muted">Inspecciones y más</small>
+            <div class="mt-2 d-flex gap-2 flex-wrap">
+              <span class="badge bg-label-danger">Incidentes: {{ summary.quality.incidents }}</span>
+              <span class="badge bg-label-primary">Certificaciones: {{ summary.quality.certifications }}</span>
+              <span class="badge bg-label-warning text-dark">Pruebas: {{ summary.quality.tests }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-start">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-layout bx-sm"></i></div>
+          <div class="w-100">
+            <h6 class="mb-1">Subcontratistas</h6>
+            <div class="d-flex align-items-center">
+              <small class="text-muted">Gestiona proveedores externos</small>
+              <span class="badge bg-secondary ms-auto">{{ summary.subcontractors.total }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-start">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-group bx-sm"></i></div>
+          <div class="w-100">
+            <h6 class="mb-1">Clientes</h6>
+            <div class="d-flex align-items-center">
+              <small class="text-muted">Directorio de clientes</small>
+              <span class="badge bg-primary ms-auto">{{ summary.clients.total }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-start">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-file bx-sm"></i></div>
+          <div class="w-100">
+            <h6 class="mb-1">Documentos</h6>
+            <div class="d-flex align-items-center mb-1">
+              <small class="text-muted">Gestión documental</small>
+              <span class="badge bg-warning text-dark ms-auto">{{ summary.documents.total }}</span>
+            </div>
+            <div class="mt-1 d-flex gap-2 flex-wrap">
+              <span class="badge bg-label-secondary">Planos: {{ summary.documents.planos }}</span>
+              <span class="badge bg-label-info">Renders: {{ summary.documents.renders }}</span>
+              <span class="badge bg-label-primary">Fotos: {{ summary.documents.fotos }}</span>
+              <span class="badge bg-label-success">Informes: {{ summary.documents.informes }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-start">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-cube-alt bx-sm"></i></div>
+          <div class="w-100">
+            <h6 class="mb-1">Equipos</h6>
+            <div class="d-flex align-items-center mb-1">
+              <small class="text-muted">Activos y equipos</small>
+              <span class="badge bg-secondary ms-auto">{{ summary.equipment.total }}</span>
+            </div>
+            <div class="mt-1 d-flex gap-2 flex-wrap">
+              <span class="badge bg-label-success">Disponibles: {{ summary.equipment.available }}</span>
+              <span class="badge bg-label-primary">En uso: {{ summary.equipment.in_use }}</span>
+              <span class="badge bg-label-warning text-dark">Mantenimiento: {{ summary.equipment.maintenance }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-start">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-dollar bx-sm"></i></div>
+          <div class="w-100">
+            <h6 class="mb-1">Finanzas</h6>
+            <div class="d-flex align-items-center mb-1">
+              <small class="text-muted">Facturas y pagos</small>
+              <span class="badge bg-success ms-auto">{{ summary.finance.invoices_total }}</span>
+            </div>
+            <div class="mt-1 d-flex gap-2 flex-wrap">
+              <span class="badge bg-label-success">Pagadas: {{ summary.finance.invoices_paid }}</span>
+              <span class="badge bg-label-danger">Pendientes: {{ summary.finance.invoices_pending }}</span>
+              <span class="badge bg-label-primary">Pagos: {{ summary.finance.payments_total }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-start">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-collection bx-sm"></i></div>
+          <div class="w-100">
+            <h6 class="mb-1">Inventario</h6>
+            <div class="d-flex align-items-center mb-1">
+              <small class="text-muted">Existencias y movimientos</small>
+              <span class="badge bg-info ms-auto">{{ summary.inventory.stores }}</span>
+            </div>
+            <div class="mt-1 d-flex gap-2 flex-wrap">
+              <span class="badge bg-label-primary">Materiales: {{ summary.inventory.materials }}</span>
+              <span class="badge bg-label-secondary">Proveedores: {{ summary.inventory.providers }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-start">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-detail bx-sm"></i></div>
+          <div class="w-100">
+            <h6 class="mb-1">Reportes</h6>
+            <div class="d-flex align-items-center">
+              <small class="text-muted">Informes y analítica</small>
+              <span class="badge bg-primary ms-auto">{{ summary.reports.total }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="card-body d-flex align-items-center">
+          <div class="avatar flex-shrink-0 me-3"><i class="bx bx-support bx-sm"></i></div>
+          <div>
+            <h6 class="mb-1">Soporte</h6>
+            <small class="text-muted">Ayuda y contacto</small>
+          </div>
+          <a class="stretched-link" href="{% url 'core:support' %}"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

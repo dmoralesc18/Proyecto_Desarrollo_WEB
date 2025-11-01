@@ -19,6 +19,7 @@
   dir="ltr"
   data-theme="theme-default"
   data-template="vertical-menu-template-free"
+  data-theme-mode="light"
 >
   <head>
     <meta charset="utf-8" />
@@ -48,6 +49,7 @@
     <link rel="stylesheet" href="{% static 'vendor/css/core.css' %}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{% static 'vendor/css/theme-default.css' %}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{% static 'css/demo.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/theme-mode.css' %}" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{% static 'vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
@@ -58,6 +60,18 @@
 
     <!-- Helpers -->
     <script src="{% static 'vendor/js/helpers.js' %}"></script>
+    <!-- Dark/Light early loader: evita parpadeo de tema -->
+    <script>
+      (function () {
+        try {
+          var key = 'themeMode';
+          var saved = localStorage.getItem(key);
+          var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var mode = saved || (systemDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme-mode', mode);
+        } catch (e) {}
+      })();
+    </script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and Ayudaers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
@@ -87,10 +101,6 @@
   <div class="menu-inner-shadow"></div>
 
   <ul class="menu-inner py-1">
-
-          <div class="menu-inner-shadow"></div>
-
-          <ul class="menu-inner py-1">
             <!-- Dashboard -->
 
             <!-- Proyectos -->
@@ -187,7 +197,7 @@
             id="layout-navbar"
           >
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+              <a class="nav-item nav-link px-0 me-xl-4 layout-menu-toggle" href="javascript:void(0)">
                 <i class="bx bx-menu bx-sm"></i>
               </a>
             </div>
@@ -199,6 +209,8 @@
                 <li class="nav-item lh-1 me-3">
                   <a>Número de Proyectos</a>
                 </li>
+
+                
 
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -314,6 +326,86 @@
 
     <!-- Page JS -->
     <script src="{% static 'js/dashboards-analytics.js' %}"></script>
+
+    <script>
+      // Persistencia y toggle de tema claro/oscuro
+      (function () {
+        var KEY = 'themeMode';
+        function current() {
+          return document.documentElement.getAttribute('data-theme-mode') || 'light';
+        }
+        function set(mode) {
+          document.documentElement.setAttribute('data-theme-mode', mode);
+          try { localStorage.setItem(KEY, mode); } catch (e) {}
+          var togglers = document.querySelectorAll('[data-theme-toggle="theme"]');
+          togglers.forEach(function(btn){
+            btn.innerHTML = mode === 'dark' ? '<span class="bx bx-sun"></span>' : '<span class="bx bx-moon"></span>';
+          });
+        }
+        function toggle() { set(current() === 'dark' ? 'light' : 'dark'); }
+        // Init icon on load
+        set(current());
+        // Ensure there is a toggler next to "Número de Proyectos"
+        document.addEventListener('DOMContentLoaded', function(){
+          try {
+            var target = document.querySelector('.navbar-nav .nav-item.lh-1.me-3');
+            if (target && !target.querySelector('[data-theme-toggle="theme"]')) {
+              var btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = 'btn btn-sm btn-outline-secondary ms-2';
+              btn.setAttribute('data-theme-toggle','theme');
+              btn.title = 'Alternar tema';
+              btn.innerHTML = current() === 'dark' ? '<span class="bx bx-sun"></span>' : '<span class="bx bx-moon"></span>';
+              target.appendChild(btn);
+            }
+          } catch (e) {}
+        });
+        // Bind buttons
+        document.addEventListener('click', function (e) {
+          if (e.target.closest && e.target.closest('[data-theme-toggle="theme"]')) {
+            toggle();
+          }
+        });
+      })();
+    </script>
+
+    <script>
+      (function () {
+        function attachFallback() {
+          var toggles = document.querySelectorAll('.layout-menu-toggle');
+          toggles.forEach(function (el) {
+            el.addEventListener(
+              'click',
+              function () {
+                var root = document.documentElement;
+                var small = window.matchMedia('(max-width: 1199.98px)').matches;
+                var wasExpanded = root.classList.contains('layout-menu-expanded');
+                var wasCollapsed = root.classList.contains('layout-menu-collapsed');
+                setTimeout(function () {
+                  var isExpanded = root.classList.contains('layout-menu-expanded');
+                  var isCollapsed = root.classList.contains('layout-menu-collapsed');
+                  if (small) {
+                    if (isExpanded === wasExpanded) {
+                      root.classList.toggle('layout-menu-expanded');
+                    }
+                  } else {
+                    if (isCollapsed === wasCollapsed) {
+                      root.classList.toggle('layout-menu-collapsed');
+                    }
+                  }
+                }, 50);
+              },
+              { passive: false }
+            );
+          });
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', attachFallback);
+        } else {
+          attachFallback();
+        }
+      })();
+    </script>
 
   </body>
 </html>
