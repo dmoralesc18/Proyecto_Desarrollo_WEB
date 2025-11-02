@@ -407,6 +407,33 @@
       })();
     </script>
 
+    <script>
+      // Ajustar enlaces del menú de usuario a vistas reales (perfil, logout, config admin)
+      (function(){
+        try {
+          var dropdown = document.querySelector('.dropdown-user');
+          if (dropdown){
+            var isAdmin = {{ request.user.is_superuser|yesno:'true,false' }};
+            var anchors = dropdown.querySelectorAll('a.dropdown-item');
+            anchors.forEach(function(a){
+              var icon = a.querySelector('i');
+              if (!icon) return;
+              if (icon.classList.contains('bx-user')) {
+                a.setAttribute('href', "{% url 'core:profile' %}");
+              } else if (icon.classList.contains('bx-power-off')) {
+                a.setAttribute('href', "{% url 'core:logout' %}");
+              } else if (icon.classList.contains('bx-cog')) {
+                a.setAttribute('href', "{% url 'core:users' %}");
+                if (!isAdmin) {
+                  a.closest('li').style.display = 'none';
+                }
+              }
+            });
+          }
+        } catch(e) {}
+      })();
+    </script>
+
   </body>
 </html>
 

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="d-flex align-items-center mb-3">
+    <h5 class="mb-0">Usuarios</h5>
+    <a href="{% url 'core:user_create' %}" class="btn btn-primary ms-auto">Nuevo usuario</a>
+  </div>
+
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in usuarios %}
+          <tr>
+            <td>{{ u.get_full_name|default:u.username }}</td>
+            <td>{{ u.email }}</td>
+            <td>{% if u.is_superuser %}Administrador{% elif u.is_staff %}Supervisor{% else %}Cliente{% endif %}</td>
+            <td class="text-end">
+              <a href="{% url 'core:user_edit' u.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+              <a href="{% url 'core:user_delete' u.pk %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4" class="text-center text-muted">Sin usuarios</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
