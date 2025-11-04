@@ -323,6 +323,7 @@
 
     <!-- Main JS -->
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/table-filters.js' %}"></script>
 
     <!-- Page JS -->
     <script src="{% static 'js/dashboards-analytics.js' %}"></script>
@@ -427,6 +428,10 @@
                 if (!isAdmin) {
                   a.closest('li').style.display = 'none';
                 }
+              } else if (icon.classList.contains('bx-credit-card')) {
+                // Eliminar el botón de Facturación del menú de usuario
+                var li = a.closest('li');
+                if (li && li.parentNode) li.parentNode.removeChild(li);
               }
             });
           }

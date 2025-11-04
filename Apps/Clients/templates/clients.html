@@ -6,13 +6,16 @@
         <div class="card" style="width: 90%; max-width: 1000px;">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Clientes</h5>
-                <a href="{% url 'clients:client_create' %}" class="btn btn-primary btn-sm">
-                    <i class="bx bx-plus"></i> Nuevo cliente
-                </a>
+                <div class="d-flex align-items-center gap-2">
+                    <input type="text" class="form-control form-control-sm" style="width:220px" placeholder="Buscar..." data-table-filter="#tbl-clients" />
+                    <a href="{% url 'clients:client_create' %}" class="btn btn-primary btn-sm">
+                        <i class="bx bx-plus"></i> Nuevo cliente
+                    </a>
+                </div>
             </div>
             <div class="card-body py-2">
                 <div class="table-responsive">
-                    <table class="table table-hover table-sm mb-0">
+                    <table id="tbl-clients" class="table table-hover table-sm mb-0">
                         <thead>
                             <tr>
                                 <th style="width: 10%;">ID</th>
