@@ -6,6 +6,6 @@ pip install -r requirements.txt
 mkdir -p staticfiles
 python manage.py collectstatic --noinput
 
-python manage.py migrate --noinput && gunicorn Project.wsgi
+python manage.py migrate --noinput 
 
 
