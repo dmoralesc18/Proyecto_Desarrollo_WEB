@@ -14,7 +14,7 @@ class Subcontratista(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'subcontratista'
     
     def __str__(self):
@@ -31,7 +31,7 @@ class Contrato(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'contrato'
 
     def __str__(self):

@@ -16,7 +16,7 @@ class Factura(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'factura'
 
     def __str__(self):
@@ -35,7 +35,7 @@ class Pago(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'pago'
 
     def __str__(self):

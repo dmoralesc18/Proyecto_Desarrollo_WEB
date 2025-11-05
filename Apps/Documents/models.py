@@ -14,5 +14,5 @@ class DocumentoTecnico(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'documento_tecnico'

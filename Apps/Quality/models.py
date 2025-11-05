@@ -13,7 +13,7 @@ class Inspeccion(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'inspeccion'
 
 class Incidente(models.Model):
@@ -26,7 +26,7 @@ class Incidente(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'incidente'
 
 class Certificacion(models.Model):
@@ -39,7 +39,7 @@ class Certificacion(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'certificacion'
 
 class PruebaCalidad(models.Model):
@@ -52,5 +52,5 @@ class PruebaCalidad(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'prueba_calidad'

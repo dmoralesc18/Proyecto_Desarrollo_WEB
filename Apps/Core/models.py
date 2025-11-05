@@ -14,7 +14,7 @@ class Usuario(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'usuario'
 
 class UsuarioProyecto(models.Model):
@@ -23,6 +23,6 @@ class UsuarioProyecto(models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'usuario_proyecto'
         unique_together = (('id_usuario', 'id_proyecto'),)

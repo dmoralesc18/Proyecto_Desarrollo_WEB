@@ -14,7 +14,7 @@ class MaquinariaEquipo(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'maquinaria_equipo'
     
     def __str__(self):
@@ -32,7 +32,7 @@ class Alquiler(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'alquiler'
     
     def __str__(self):

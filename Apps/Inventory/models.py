@@ -57,7 +57,7 @@ class Proveedor(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'proveedor'
 
     def __str__(self):
@@ -73,7 +73,7 @@ class ProveedorMaterial(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'proveedor_material'
         unique_together = (('id_proveedor', 'id_material'),)
 

@@ -16,7 +16,7 @@ class Proyecto(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'proyecto'
 
     def __str__(self):
@@ -32,7 +32,7 @@ class Presupuesto(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
+        managed = True
         db_table = 'presupuesto'
 
     def __str__(self):
