@@ -8,6 +8,13 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title mb-3">Iniciar sesión</h5>
+          {% if messages %}
+            <div class="mb-3">
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} mb-2" role="alert">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
           <form method="post">
             {% csrf_token %}
             <div class="mb-3">
@@ -19,16 +26,13 @@
               {{ form.password }}
             </div>
             <button type="submit" class="btn btn-primary w-100">Entrar</button>
-            {% if show_first_setup %}
-            <div class="mt-3 text-center">
-              <a href="{% url 'core:first_user_setup' %}" class="small">¿Primera vez? Crear administrador</a>
-            </div>
-            {% endif %}
           </form>
+          <div class="mt-3 text-center">
+            <a href="{% url 'core:first_user_setup' %}" class="small">Registrarme</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
  </div>
 {% endblock %}
-

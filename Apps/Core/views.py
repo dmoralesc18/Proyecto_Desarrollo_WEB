@@ -210,10 +210,7 @@ def user_delete_view(request, pk: int):
 
 
 def first_user_setup_view(request):
-    # Si ya existe un superusuario, redirigir a login
-    if User.objects.filter(is_superuser=True).exists():
-        return redirect('core:login')
-
+    # Permitir registro de administrador en cualquier momento
     if request.method == 'POST':
         form = FirstUserSetupForm(request.POST)
         if form.is_valid():
@@ -221,19 +218,31 @@ def first_user_setup_view(request):
             nombre = form.cleaned_data['nombre']
             password = form.cleaned_data['password']
 
-            u = User.objects.create_user(username=email, email=email)
-            u.first_name = nombre
-            u.is_staff = True
-            u.is_superuser = True
-            u.set_password(password)
-            u.save()
+            # Validar que no exista ya el usuario o email
+            if User.objects.filter(username=email).exists() or User.objects.filter(email=email).exists():
+                messages.error(request, 'Ya existe un usuario con ese correo.')
+                return render(request, 'first_user_setup.html', {'form': form})
+            try:
+                u = User.objects.create_user(username=email, email=email)
+                u.first_name = nombre
+                u.is_staff = True
+                u.is_superuser = True
+                u.set_password(password)
+                u.save()
+            except Exception as e:
+                messages.error(request, f'Error creando usuario: {e}')
+                return render(request, 'first_user_setup.html', {'form': form})
 
             messages.success(request, 'Usuario administrador creado correctamente.')
             user = authenticate(request, username=email, password=password)
             if user is not None:
                 auth_login(request, user)
                 return redirect('homeapp')
+            messages.error(request, 'No se pudo iniciar sesión automáticamente. Intente ingresar con sus credenciales.')
             return redirect('core:login')
+        else:
+            messages.error(request, 'Revisa los campos. Las contraseñas deben coincidir.')
+            return render(request, 'first_user_setup.html', {'form': form})
     else:
         form = FirstUserSetupForm()
 
