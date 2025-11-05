@@ -9,9 +9,11 @@
                 <h5 class="mb-0">Proyectos</h5>
                 <div class="d-flex align-items-center gap-2">
                     <input type="text" class="form-control form-control-sm" style="width:220px" placeholder="Buscar..." data-table-filter="#tbl-projects" />
+                    {% if request.user.is_superuser or request.user.is_staff %}
                     <a href="{% url 'project_create' %}" class="btn btn-primary btn-sm">
                         <i class="bx bx-plus"></i> Nuevo proyecto
                     </a>
+                    {% endif %}
                 </div>
             </div>
             <div class="card-body py-2">
@@ -53,12 +55,14 @@
                                     <a href="{% url 'project_detail' proyecto.id_proyecto %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
                                     </a>
+                                    {% if request.user.is_superuser %}
                                     <a href="{% url 'project_update' proyecto.id_proyecto %}" class="btn btn-sm btn-warning">
                                         <i class="bx bx-edit"></i>
                                     </a>
                                     <a href="{% url 'project_delete' proyecto.id_proyecto %}" class="btn btn-sm btn-danger">
                                         <i class="bx bx-trash"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% empty %}
@@ -74,6 +78,7 @@
     </div>
 
     <!-- TABLA DE PRESUPUESTOS -->
+    {% if request.user.is_superuser or request.user.is_staff %}
     <div class="d-flex justify-content-center mt-4">
         <div class="card" style="width: 90%; max-width: 1200px;">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -108,12 +113,14 @@
                                     <a href="{% url 'budget_detail' presupuesto.id_presupuesto %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
                                     </a>
+                                    {% if request.user.is_superuser %}
                                     <a href="{% url 'budget_update' presupuesto.id_presupuesto %}" class="btn btn-sm btn-warning">
                                         <i class="bx bx-edit"></i>
                                     </a>
                                     <a href="{% url 'budget_delete' presupuesto.id_presupuesto %}" class="btn btn-sm btn-danger">
                                         <i class="bx bx-trash"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% empty %}
@@ -127,6 +134,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 {% endblock %}
 
 

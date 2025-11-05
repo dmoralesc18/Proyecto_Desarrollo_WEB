@@ -3,21 +3,22 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from Apps.Core.permissions import AdminOnlyMixin
 from Apps.Clients.models import Cliente
 from .forms import ClienteForm
 
-class ClientsView(ListView):
+class ClientsView(AdminOnlyMixin, ListView):
     model = Cliente
     template_name = 'clients.html'
     context_object_name = 'clientes'
     
-class ClientDetailView(DetailView):
+class ClientDetailView(AdminOnlyMixin, DetailView):
     model = Cliente
     template_name = 'client_detail.html'
     context_object_name = 'cliente'
     pk_url_kwarg = 'pk'
 
-class ClientCreateView(CreateView):
+class ClientCreateView(AdminOnlyMixin, CreateView):
     model = Cliente
     form_class = ClienteForm
     template_name = 'client_form.html'
@@ -32,7 +33,7 @@ class ClientCreateView(CreateView):
         messages.success(self.request, 'Client created successfully.')
         return super().form_valid(form)
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(AdminOnlyMixin, UpdateView):
     model = Cliente
     form_class = ClienteForm
     template_name = 'client_form.html'
@@ -50,7 +51,7 @@ class ClientUpdateView(UpdateView):
         messages.success(self.request, 'Client updated successfully.')
         return super().form_valid(form)
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(AdminOnlyMixin, DeleteView):
     model = Cliente
     template_name = 'client_delete.html'
     context_object_name = 'cliente'

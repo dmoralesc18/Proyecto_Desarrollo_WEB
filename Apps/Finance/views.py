@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
+from Apps.Core.permissions import AdminOnlyMixin
 from django.db.models import Sum, F, Value, DecimalField, Q
 from django.db.models.functions import Coalesce
 
@@ -9,7 +10,7 @@ from django.urls import reverse_lazy
 from Apps.Finance.models import FacturaMeta, PagoMeta
 
 # Create your views here.
-class FinanceView(TemplateView):
+class FinanceView(AdminOnlyMixin, TemplateView):
     template_name = 'finance.html'
 
     def get_context_data(self, **kwargs):
@@ -225,7 +226,7 @@ class FinanceView(TemplateView):
         return context
 
 
-class FacturaCreateView(CreateView):
+class FacturaCreateView(AdminOnlyMixin, CreateView):
     model = Factura
     form_class = FacturaForm
     template_name = 'factura_form.html'
@@ -249,7 +250,7 @@ class FacturaCreateView(CreateView):
         return response
 
 
-class PagoCreateView(CreateView):
+class PagoCreateView(AdminOnlyMixin, CreateView):
     model = Pago
     form_class = PagoForm
     template_name = 'pago_form.html'
@@ -280,14 +281,14 @@ class PagoCreateView(CreateView):
         return response
 
 
-class FacturaListView(ListView):
+class FacturaListView(AdminOnlyMixin, ListView):
     model = Factura
     template_name = 'factura_list.html'
     context_object_name = 'facturas'
     paginate_by = 20
 
 
-class FacturaUpdateView(UpdateView):
+class FacturaUpdateView(AdminOnlyMixin, UpdateView):
     model = Factura
     form_class = FacturaForm
     template_name = 'factura_form.html'
@@ -311,20 +312,20 @@ class FacturaUpdateView(UpdateView):
         return response
 
 
-class FacturaDeleteView(DeleteView):
+class FacturaDeleteView(AdminOnlyMixin, DeleteView):
     model = Factura
     template_name = 'factura_delete.html'
     success_url = reverse_lazy('invoice_list')
 
 
-class PagoListView(ListView):
+class PagoListView(AdminOnlyMixin, ListView):
     model = Pago
     template_name = 'pago_list.html'
     context_object_name = 'pagos'
     paginate_by = 20
 
 
-class PagoUpdateView(UpdateView):
+class PagoUpdateView(AdminOnlyMixin, UpdateView):
     model = Pago
     form_class = PagoForm
     template_name = 'pago_form.html'
@@ -348,7 +349,7 @@ class PagoUpdateView(UpdateView):
         return response
 
 
-class PagoDeleteView(DeleteView):
+class PagoDeleteView(AdminOnlyMixin, DeleteView):
     model = Pago
     template_name = 'pago_delete.html'
     success_url = reverse_lazy('payment_list')

@@ -228,8 +228,9 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">Administrador</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block">{{ request.user.get_full_name|default:request.user.username }}</span>
+                            <small class="text-muted d-block">{{ request.user.email }}</small>
+                            <small class="text-muted">{% if request.user.is_superuser %}Administrador{% elif request.user.is_staff %}Supervisor{% else %}Cliente{% endif %}</small>
                           </div>
                         </div>
                       </a>
@@ -238,8 +239,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
+                      <a class="dropdown-item" href="{% url 'core:profile' %}"> <i class="bx bx-user me-2"></i>
                         <span class="align-middle">Mi Perfil</span>
                       </a>
                     </li>
@@ -249,20 +249,12 @@
                         <span class="align-middle">Configuración</span>
                       </a>
                     </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Facturación</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li>
+                    
                     <li>
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a class="dropdown-item" href="{% url 'core:logout' %}">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Cerrar sesión</span>
                       </a>
@@ -439,8 +431,46 @@
       })();
     </script>
 
+    <script>
+      // Ocultar entradas de menú según rol
+      (function(){
+        try {
+          var isAdmin = {{ request.user.is_superuser|yesno:'true,false' }};
+          var isStaff = {{ request.user.is_staff|yesno:'true,false' }};
+          if (!isAdmin){
+            document.querySelectorAll('.menu-inner .menu-item').forEach(function(li){
+              var link = li.querySelector('.menu-link');
+              if (!link) return;
+              var txt = (link.innerText || '').toLowerCase();
+              // Siempre ocultar a no-admin: Clientes y Finanzas
+              if (txt.indexOf('clientes') !== -1 || txt.indexOf('finanzas') !== -1){
+                li.style.display = 'none';
+                return;
+              }
+              // Si es cliente (no staff), ocultar módulos adicionales
+              if (!isStaff){
+                if (
+                  txt.indexOf('subcontratistas') !== -1 ||
+                  txt.indexOf('calidad') !== -1 ||
+                  txt.indexOf('equipos') !== -1 ||
+                  txt.indexOf('inventario') !== -1 ||
+                  txt.indexOf('reportes') !== -1
+                ){
+                  li.style.display = 'none';
+                }
+              }
+            });
+          }
+        } catch(e) {}
+      })();
+    </script>
+
   </body>
 </html>
+
+
+
+
 
 
 

@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView
+from Apps.Core.permissions import AdminOrStaffMixin
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from django.db.models import Value, DecimalField, Q, F
@@ -12,7 +13,7 @@ import csv
 from django.shortcuts import render
 
 # Create your views here.
-class ReportsView(TemplateView):
+class ReportsView(AdminOrStaffMixin, TemplateView):
     template_name = 'reports.html'
     
     def get_context_data(self, **kwargs):
@@ -78,7 +79,7 @@ class ReportsView(TemplateView):
         return context
 
 
-class ReportAgingView(TemplateView):
+class ReportAgingView(AdminOrStaffMixin, TemplateView):
     template_name = 'report_aging.html'
 
     def get_queryset(self, request):

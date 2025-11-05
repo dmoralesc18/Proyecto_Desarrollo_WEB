@@ -7,9 +7,11 @@
         <div class="card" style="width: 90%; max-width: 1200px;">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Materiales</h5>
+                {% if request.user.is_superuser or request.user.is_staff %}
                 <a href="{% url 'material_create' %}" class="btn btn-primary btn-sm">
                     <i class="bx bx-plus"></i> Nuevo material
                 </a>
+                {% endif %}
             </div>
             <div class="card-body py-2">
                 <div class="mb-2 d-flex justify-content-end">
@@ -35,12 +37,14 @@
                                     <a href="{% url 'material_detail' material.id_material %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
                                     </a>
+                                    {% if request.user.is_superuser %}
                                     <a href="{% url 'material_update' material.id_material %}" class="btn btn-sm btn-warning">
                                         <i class="bx bx-edit"></i>
                                     </a>
                                     <a href="{% url 'material_delete' material.id_material %}" class="btn btn-sm btn-danger">
                                         <i class="bx bx-trash"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% empty %}
@@ -61,12 +65,14 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Inventarios</h5>
                 <div>
+                    {% if request.user.is_superuser or request.user.is_staff %}
                     <a href="{% url 'inventario_material_create' %}" class="btn btn-secondary btn-sm me-2">
                         <i class="bx bx-plus"></i> Agregar material al inventario
                     </a>
                     <a href="{% url 'inventario_create' %}" class="btn btn-success btn-sm">
                         <i class="bx bx-plus"></i> Nuevo inventario
                     </a>
+                    {% endif %}
                 </div>
             </div>
             <div class="card-body py-2">
@@ -93,12 +99,14 @@
                                     <a href="{% url 'inventario_detail' inventario.id_inventario %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
                                     </a>
+                                    {% if request.user.is_superuser %}
                                     <a href="{% url 'inventario_update' inventario.id_inventario %}" class="btn btn-sm btn-warning">
                                         <i class="bx bx-edit"></i>
                                     </a>
                                     <a href="{% url 'inventario_delete' inventario.id_inventario %}" class="btn btn-sm btn-danger">
                                         <i class="bx bx-trash"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% empty %}
@@ -119,12 +127,14 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Proveedores</h5>
                 <div>
+                    {% if request.user.is_superuser or request.user.is_staff %}
                     <a href="{% url 'proveedor_material_create' %}" class="btn btn-secondary btn-sm me-2">
                         <i class="bx bx-plus"></i> Agregar material al proveedor
                     </a>
                     <a href="{% url 'proveedor_create' %}" class="btn btn-info btn-sm">
                         <i class="bx bx-plus"></i> Nuevo proveedor
                     </a>
+                    {% endif %}
                 </div>
             </div>
             <div class="card-body py-2">
@@ -151,12 +161,14 @@
                                     <a href="{% url 'proveedor_detail' proveedor.id_proveedor %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
                                     </a>
+                                    {% if request.user.is_superuser %}
                                     <a href="{% url 'proveedor_update' proveedor.id_proveedor %}" class="btn btn-sm btn-warning">
                                         <i class="bx bx-edit"></i>
                                     </a>
                                     <a href="{% url 'proveedor_delete' proveedor.id_proveedor %}" class="btn btn-sm btn-danger">
                                         <i class="bx bx-trash"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% empty %}

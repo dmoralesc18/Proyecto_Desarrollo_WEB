@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from .models import DocumentoTecnico
 from .forms import DocumentoTecnicoForm
 
@@ -18,7 +19,7 @@ class DocumentDetailView(DetailView):
     context_object_name = 'documento'
     pk_url_kwarg = 'pk'
 
-class DocumentCreateView(CreateView):
+class DocumentCreateView(AdminOrStaffMixin, CreateView):
     model = DocumentoTecnico
     form_class = DocumentoTecnicoForm
     template_name = 'document_form.html'
@@ -33,7 +34,7 @@ class DocumentCreateView(CreateView):
         messages.success(self.request, 'Document created successfully.')
         return super().form_valid(form)
 
-class DocumentUpdateView(UpdateView):
+class DocumentUpdateView(AdminOnlyMixin, UpdateView):
     model = DocumentoTecnico
     form_class = DocumentoTecnicoForm
     template_name = 'document_form.html'
@@ -51,7 +52,7 @@ class DocumentUpdateView(UpdateView):
         messages.success(self.request, 'Document updated successfully.')
         return super().form_valid(form)
 
-class DocumentDeleteView(DeleteView):
+class DocumentDeleteView(AdminOnlyMixin, DeleteView):
     model = DocumentoTecnico
     template_name = 'document_delete.html'
     context_object_name = 'documento'

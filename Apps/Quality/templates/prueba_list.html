@@ -43,12 +43,14 @@
                                     <a href="{% url 'quality:prueba_detail' prueba.id_prueba %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
                                     </a>
+                                    {% if request.user.is_superuser %}
                                     <a href="{% url 'quality:prueba_update' prueba.id_prueba %}" class="btn btn-sm btn-warning">
                                         <i class="bx bx-edit"></i>
                                     </a>
                                     <a href="{% url 'quality:prueba_delete' prueba.id_prueba %}" class="btn btn-sm btn-danger">
                                         <i class="bx bx-trash"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% empty %}

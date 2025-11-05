@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 from .models import Inspeccion, Incidente, Certificacion, PruebaCalidad
@@ -17,19 +18,19 @@ class QualityView(TemplateView):
         return context
 
 # ==================== INSPECCIONES ====================
-class InspeccionListView(ListView):
+class InspeccionListView(AdminOrStaffMixin, ListView):
     model = Inspeccion
     template_name = 'inspeccion_list.html'
     context_object_name = 'inspecciones'
     ordering = ['-fecha']
 
-class InspeccionDetailView(DetailView):
+class InspeccionDetailView(AdminOrStaffMixin, DetailView):
     model = Inspeccion
     template_name = 'inspeccion_detail.html'
     context_object_name = 'inspeccion'
     pk_url_kwarg = 'pk'
 
-class InspeccionCreateView(CreateView):
+class InspeccionCreateView(AdminOrStaffMixin, CreateView):
     model = Inspeccion
     form_class = InspeccionForm
     template_name = 'inspeccion_form.html'
@@ -44,7 +45,7 @@ class InspeccionCreateView(CreateView):
         messages.success(self.request, 'Inspection created successfully.')
         return super().form_valid(form)
 
-class InspeccionUpdateView(UpdateView):
+class InspeccionUpdateView(AdminOnlyMixin, UpdateView):
     model = Inspeccion
     form_class = InspeccionForm
     template_name = 'inspeccion_form.html'
@@ -62,7 +63,7 @@ class InspeccionUpdateView(UpdateView):
         messages.success(self.request, 'Inspection updated successfully.')
         return super().form_valid(form)
 
-class InspeccionDeleteView(DeleteView):
+class InspeccionDeleteView(AdminOnlyMixin, DeleteView):
     model = Inspeccion
     template_name = 'inspeccion_delete.html'
     context_object_name = 'inspeccion'
@@ -74,19 +75,19 @@ class InspeccionDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 # ==================== INCIDENTES ====================
-class IncidenteListView(ListView):
+class IncidenteListView(AdminOrStaffMixin, ListView):
     model = Incidente
     template_name = 'incidente_list.html'
     context_object_name = 'incidentes'
     ordering = ['-fecha']
 
-class IncidenteDetailView(DetailView):
+class IncidenteDetailView(AdminOrStaffMixin, DetailView):
     model = Incidente
     template_name = 'incidente_detail.html'
     context_object_name = 'incidente'
     pk_url_kwarg = 'pk'
 
-class IncidenteCreateView(CreateView):
+class IncidenteCreateView(AdminOrStaffMixin, CreateView):
     model = Incidente
     form_class = IncidenteForm
     template_name = 'incidente_form.html'
@@ -101,7 +102,7 @@ class IncidenteCreateView(CreateView):
         messages.success(self.request, 'Incident created successfully.')
         return super().form_valid(form)
 
-class IncidenteUpdateView(UpdateView):
+class IncidenteUpdateView(AdminOnlyMixin, UpdateView):
     model = Incidente
     form_class = IncidenteForm
     template_name = 'incidente_form.html'
@@ -119,7 +120,7 @@ class IncidenteUpdateView(UpdateView):
         messages.success(self.request, 'Incident updated successfully.')
         return super().form_valid(form)
 
-class IncidenteDeleteView(DeleteView):
+class IncidenteDeleteView(AdminOnlyMixin, DeleteView):
     model = Incidente
     template_name = 'incidente_delete.html'
     context_object_name = 'incidente'
@@ -131,19 +132,19 @@ class IncidenteDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 # ==================== CERTIFICACIONES ====================
-class CertificacionListView(ListView):
+class CertificacionListView(AdminOrStaffMixin, ListView):
     model = Certificacion
     template_name = 'certificacion_list.html'
     context_object_name = 'certificaciones'
     ordering = ['-fecha_emision']
 
-class CertificacionDetailView(DetailView):
+class CertificacionDetailView(AdminOrStaffMixin, DetailView):
     model = Certificacion
     template_name = 'certificacion_detail.html'
     context_object_name = 'certificacion'
     pk_url_kwarg = 'pk'
 
-class CertificacionCreateView(CreateView):
+class CertificacionCreateView(AdminOrStaffMixin, CreateView):
     model = Certificacion
     form_class = CertificacionForm
     template_name = 'certificacion_form.html'
@@ -158,7 +159,7 @@ class CertificacionCreateView(CreateView):
         messages.success(self.request, 'Certification created successfully.')
         return super().form_valid(form)
 
-class CertificacionUpdateView(UpdateView):
+class CertificacionUpdateView(AdminOnlyMixin, UpdateView):
     model = Certificacion
     form_class = CertificacionForm
     template_name = 'certificacion_form.html'
@@ -176,7 +177,7 @@ class CertificacionUpdateView(UpdateView):
         messages.success(self.request, 'Certification updated successfully.')
         return super().form_valid(form)
 
-class CertificacionDeleteView(DeleteView):
+class CertificacionDeleteView(AdminOnlyMixin, DeleteView):
     model = Certificacion
     template_name = 'certificacion_delete.html'
     context_object_name = 'certificacion'
@@ -188,19 +189,19 @@ class CertificacionDeleteView(DeleteView):
         return super().delete(request, *args, **kwargs)
 
 # ==================== PRUEBAS DE CALIDAD ====================
-class PruebaCalidadListView(ListView):
+class PruebaCalidadListView(AdminOrStaffMixin, ListView):
     model = PruebaCalidad
     template_name = 'prueba_list.html'
     context_object_name = 'pruebas'
     ordering = ['-fecha']
 
-class PruebaCalidadDetailView(DetailView):
+class PruebaCalidadDetailView(AdminOrStaffMixin, DetailView):
     model = PruebaCalidad
     template_name = 'prueba_detail.html'
     context_object_name = 'prueba'
     pk_url_kwarg = 'pk'
 
-class PruebaCalidadCreateView(CreateView):
+class PruebaCalidadCreateView(AdminOrStaffMixin, CreateView):
     model = PruebaCalidad
     form_class = PruebaCalidadForm
     template_name = 'prueba_form.html'
@@ -215,7 +216,7 @@ class PruebaCalidadCreateView(CreateView):
         messages.success(self.request, 'Quality test created successfully.')
         return super().form_valid(form)
 
-class PruebaCalidadUpdateView(UpdateView):
+class PruebaCalidadUpdateView(AdminOnlyMixin, UpdateView):
     model = PruebaCalidad
     form_class = PruebaCalidadForm
     template_name = 'prueba_form.html'
@@ -233,7 +234,7 @@ class PruebaCalidadUpdateView(UpdateView):
         messages.success(self.request, 'Quality test updated successfully.')
         return super().form_valid(form)
 
-class PruebaCalidadDeleteView(DeleteView):
+class PruebaCalidadDeleteView(AdminOnlyMixin, DeleteView):
     model = PruebaCalidad
     template_name = 'prueba_delete.html'
     context_object_name = 'prueba'

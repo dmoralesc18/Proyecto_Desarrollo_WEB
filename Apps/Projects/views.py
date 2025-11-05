@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from Apps.Projects.models import Proyecto, Presupuesto
 from .forms import ProyectoForm, PresupuestoForm
 
@@ -13,7 +14,12 @@ class ProjectsView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['presupuestos'] = Presupuesto.objects.all()
+        try:
+            user = self.request.user
+            if user.is_superuser or user.is_staff:
+                context['presupuestos'] = Presupuesto.objects.all()
+        except Exception:
+            context['presupuestos'] = Presupuesto.objects.none()
         return context
     
 class ProjectDetailView(DetailView):
@@ -22,7 +28,7 @@ class ProjectDetailView(DetailView):
     context_object_name = 'proyecto'
     pk_url_kwarg = 'pk'
 
-class ProjectCreateView(CreateView):
+class ProjectCreateView(AdminOrStaffMixin, CreateView):
     model = Proyecto
     form_class = ProyectoForm
     template_name = 'project_form.html'
@@ -37,7 +43,7 @@ class ProjectCreateView(CreateView):
         messages.success(self.request, 'Project created successfully.')
         return super().form_valid(form)
 
-class ProjectUpdateView(UpdateView):
+class ProjectUpdateView(AdminOnlyMixin, UpdateView):
     model = Proyecto
     form_class = ProyectoForm
     template_name = 'project_form.html'
@@ -55,7 +61,7 @@ class ProjectUpdateView(UpdateView):
         messages.success(self.request, 'Project updated successfully.')
         return super().form_valid(form)
 
-class ProjectDeleteView(DeleteView):
+class ProjectDeleteView(AdminOnlyMixin, DeleteView):
     model = Proyecto
     template_name = 'project_delete.html'
     context_object_name = 'proyecto'
@@ -77,7 +83,7 @@ class BudgetDetailView(DetailView):
     context_object_name = 'presupuesto'
     pk_url_kwarg = 'pk'
 
-class BudgetCreateView(CreateView):
+class BudgetCreateView(AdminOrStaffMixin, CreateView):
     model = Presupuesto
     form_class = PresupuestoForm
     template_name = 'budget_form.html'
@@ -92,7 +98,7 @@ class BudgetCreateView(CreateView):
         messages.success(self.request, 'Budget created successfully.')
         return super().form_valid(form)
 
-class BudgetUpdateView(UpdateView):
+class BudgetUpdateView(AdminOnlyMixin, UpdateView):
     model = Presupuesto
     form_class = PresupuestoForm
     template_name = 'budget_form.html'
@@ -110,7 +116,7 @@ class BudgetUpdateView(UpdateView):
         messages.success(self.request, 'Budget updated successfully.')
         return super().form_valid(form)
 
-class BudgetDeleteView(DeleteView):
+class BudgetDeleteView(AdminOnlyMixin, DeleteView):
     model = Presupuesto
     template_name = 'budget_delete.html'
     context_object_name = 'presupuesto'

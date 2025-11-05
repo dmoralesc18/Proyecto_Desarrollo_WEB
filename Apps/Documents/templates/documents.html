@@ -6,9 +6,11 @@
         <div class="card" style="width: 90%; max-width: 1200px;">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Documentos técnicos</h5>
+                {% if request.user.is_superuser or request.user.is_staff %}
                 <a href="{% url 'documents:document_create' %}" class="btn btn-primary btn-sm">
                     <i class="bx bx-plus"></i> Nuevo documento
                 </a>
+                {% endif %}
             </div>
             <div class="card-body py-2">
                 <div class="mb-2 d-flex justify-content-end">
@@ -36,12 +38,14 @@
                                     <a href="{% url 'documents:document_detail' documento.id_documento %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
                                     </a>
+                                    {% if request.user.is_superuser %}
                                     <a href="{% url 'documents:document_update' documento.id_documento %}" class="btn btn-sm btn-warning">
                                         <i class="bx bx-edit"></i>
                                     </a>
                                     <a href="{% url 'documents:document_delete' documento.id_documento %}" class="btn btn-sm btn-danger">
                                         <i class="bx bx-trash"></i>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% empty %}

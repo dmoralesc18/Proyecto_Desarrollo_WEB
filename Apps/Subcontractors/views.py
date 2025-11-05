@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from Apps.Subcontractors.models import Subcontratista, Contrato
 from .forms import SubcontratistaForm, ContratoForm
 
@@ -10,7 +11,7 @@ from .forms import SubcontratistaForm, ContratoForm
 # VISTAS DE SUBCONTRATISTA
 # ============================================
 
-class SubcontractorsView(ListView):
+class SubcontractorsView(AdminOrStaffMixin, ListView):
     model = Subcontratista
     template_name = 'subcontractors.html'
     context_object_name = 'subcontratistas'
@@ -20,7 +21,7 @@ class SubcontractorsView(ListView):
         context['contratos'] = Contrato.objects.all()
         return context
 
-class SubcontractorDetailView(DetailView):
+class SubcontractorDetailView(AdminOrStaffMixin, DetailView):
     model = Subcontratista
     template_name = 'subcontractor_detail.html'
     context_object_name = 'subcontratista'
@@ -32,7 +33,7 @@ class SubcontractorDetailView(DetailView):
         context['contratos'] = Contrato.objects.filter(id_subcontratista=self.object)
         return context
 
-class SubcontractorCreateView(CreateView):
+class SubcontractorCreateView(AdminOrStaffMixin, CreateView):
     model = Subcontratista
     form_class = SubcontratistaForm
     template_name = 'subcontractor_form.html'
@@ -47,7 +48,7 @@ class SubcontractorCreateView(CreateView):
         messages.success(self.request, 'Subcontractor created successfully.')
         return super().form_valid(form)
 
-class SubcontractorUpdateView(UpdateView):
+class SubcontractorUpdateView(AdminOnlyMixin, UpdateView):
     model = Subcontratista
     form_class = SubcontratistaForm
     template_name = 'subcontractor_form.html'
@@ -65,7 +66,7 @@ class SubcontractorUpdateView(UpdateView):
         messages.success(self.request, 'Subcontractor updated successfully.')
         return super().form_valid(form)
 
-class SubcontractorDeleteView(DeleteView):
+class SubcontractorDeleteView(AdminOnlyMixin, DeleteView):
     model = Subcontratista
     template_name = 'subcontractor_delete.html'
     context_object_name = 'subcontratista'
@@ -87,7 +88,7 @@ class ContractDetailView(DetailView):
     context_object_name = 'contrato'
     pk_url_kwarg = 'pk'
 
-class ContractCreateView(CreateView):
+class ContractCreateView(AdminOrStaffMixin, CreateView):
     model = Contrato
     form_class = ContratoForm
     template_name = 'contract_form.html'
@@ -102,7 +103,7 @@ class ContractCreateView(CreateView):
         messages.success(self.request, 'Contract created successfully.')
         return super().form_valid(form)
 
-class ContractUpdateView(UpdateView):
+class ContractUpdateView(AdminOnlyMixin, UpdateView):
     model = Contrato
     form_class = ContratoForm
     template_name = 'contract_form.html'
@@ -120,7 +121,7 @@ class ContractUpdateView(UpdateView):
         messages.success(self.request, 'Contract updated successfully.')
         return super().form_valid(form)
 
-class ContractDeleteView(DeleteView):
+class ContractDeleteView(AdminOnlyMixin, DeleteView):
     model = Contrato
     template_name = 'contract_delete.html'
     context_object_name = 'contrato'

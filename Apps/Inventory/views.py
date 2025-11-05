@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from Apps.Inventory.models import Material, Inventario, InventarioMaterial, Proveedor, ProveedorMaterial
 from .forms import MaterialForm, InventarioForm, InventarioMaterialForm, ProveedorForm, ProveedorMaterialForm
 
@@ -10,7 +11,7 @@ from .forms import MaterialForm, InventarioForm, InventarioMaterialForm, Proveed
 # VISTA PRINCIPAL DE INVENTARIO
 # ============================================
 
-class InventoryView(ListView):
+class InventoryView(AdminOrStaffMixin, ListView):
     model = Material
     template_name = 'inventory.html'
     context_object_name = 'materiales'
@@ -26,7 +27,7 @@ class InventoryView(ListView):
 # VISTAS DE MATERIAL
 # ============================================
 
-class MaterialDetailView(DetailView):
+class MaterialDetailView(AdminOrStaffMixin, DetailView):
     model = Material
     template_name = 'material_detail.html'
     context_object_name = 'material'
@@ -38,7 +39,7 @@ class MaterialDetailView(DetailView):
         context['inventarios_material'] = InventarioMaterial.objects.filter(id_material=self.object)
         return context
 
-class MaterialCreateView(CreateView):
+class MaterialCreateView(AdminOrStaffMixin, CreateView):
     model = Material
     form_class = MaterialForm
     template_name = 'material_form.html'
@@ -53,7 +54,7 @@ class MaterialCreateView(CreateView):
         messages.success(self.request, 'Material created successfully.')
         return super().form_valid(form)
 
-class MaterialUpdateView(UpdateView):
+class MaterialUpdateView(AdminOnlyMixin, UpdateView):
     model = Material
     form_class = MaterialForm
     template_name = 'material_form.html'
@@ -71,7 +72,7 @@ class MaterialUpdateView(UpdateView):
         messages.success(self.request, 'Material updated successfully.')
         return super().form_valid(form)
 
-class MaterialDeleteView(DeleteView):
+class MaterialDeleteView(AdminOnlyMixin, DeleteView):
     model = Material
     template_name = 'material_delete.html'
     context_object_name = 'material'
@@ -87,7 +88,7 @@ class MaterialDeleteView(DeleteView):
 # VISTAS DE INVENTARIO
 # ============================================
 
-class InventarioDetailView(DetailView):
+class InventarioDetailView(AdminOrStaffMixin, DetailView):
     model = Inventario
     template_name = 'inventario_detail.html'
     context_object_name = 'inventario'
@@ -98,7 +99,7 @@ class InventarioDetailView(DetailView):
         context['materiales_inventario'] = InventarioMaterial.objects.filter(id_inventario=self.object)
         return context
 
-class InventarioCreateView(CreateView):
+class InventarioCreateView(AdminOrStaffMixin, CreateView):
     model = Inventario
     form_class = InventarioForm
     template_name = 'inventario_form.html'
@@ -113,7 +114,7 @@ class InventarioCreateView(CreateView):
         messages.success(self.request, 'Inventory created successfully.')
         return super().form_valid(form)
 
-class InventarioUpdateView(UpdateView):
+class InventarioUpdateView(AdminOnlyMixin, UpdateView):
     model = Inventario
     form_class = InventarioForm
     template_name = 'inventario_form.html'
@@ -131,7 +132,7 @@ class InventarioUpdateView(UpdateView):
         messages.success(self.request, 'Inventory updated successfully.')
         return super().form_valid(form)
 
-class InventarioDeleteView(DeleteView):
+class InventarioDeleteView(AdminOnlyMixin, DeleteView):
     model = Inventario
     template_name = 'inventario_delete.html'
     context_object_name = 'inventario'
@@ -147,7 +148,7 @@ class InventarioDeleteView(DeleteView):
 # VISTAS DE INVENTARIO-MATERIAL
 # ============================================
 
-class InventarioMaterialCreateView(CreateView):
+class InventarioMaterialCreateView(AdminOrStaffMixin, CreateView):
     model = InventarioMaterial
     form_class = InventarioMaterialForm
     template_name = 'inventario_material_form.html'
@@ -167,7 +168,7 @@ class InventarioMaterialCreateView(CreateView):
 # VISTAS DE PROVEEDOR
 # ============================================
 
-class ProveedorDetailView(DetailView):
+class ProveedorDetailView(AdminOrStaffMixin, DetailView):
     model = Proveedor
     template_name = 'proveedor_detail.html'
     context_object_name = 'proveedor'
@@ -178,7 +179,7 @@ class ProveedorDetailView(DetailView):
         context['materiales_proveedor'] = ProveedorMaterial.objects.filter(id_proveedor=self.object)
         return context
 
-class ProveedorCreateView(CreateView):
+class ProveedorCreateView(AdminOrStaffMixin, CreateView):
     model = Proveedor
     form_class = ProveedorForm
     template_name = 'proveedor_form.html'
@@ -193,7 +194,7 @@ class ProveedorCreateView(CreateView):
         messages.success(self.request, 'Supplier created successfully.')
         return super().form_valid(form)
 
-class ProveedorUpdateView(UpdateView):
+class ProveedorUpdateView(AdminOnlyMixin, UpdateView):
     model = Proveedor
     form_class = ProveedorForm
     template_name = 'proveedor_form.html'
@@ -211,7 +212,7 @@ class ProveedorUpdateView(UpdateView):
         messages.success(self.request, 'Supplier updated successfully.')
         return super().form_valid(form)
 
-class ProveedorDeleteView(DeleteView):
+class ProveedorDeleteView(AdminOnlyMixin, DeleteView):
     model = Proveedor
     template_name = 'proveedor_delete.html'
     context_object_name = 'proveedor'
@@ -227,7 +228,7 @@ class ProveedorDeleteView(DeleteView):
 # VISTAS DE PROVEEDOR-MATERIAL
 # ============================================
 
-class ProveedorMaterialCreateView(CreateView):
+class ProveedorMaterialCreateView(AdminOrStaffMixin, CreateView):
     model = ProveedorMaterial
     form_class = ProveedorMaterialForm
     template_name = 'proveedor_material_form.html'
