@@ -25,7 +25,7 @@
                         <td>Q{{ presupuesto.monto_total|floatformat:2|intcomma }}</td>
                     </tr>
                     <tr>
-                        <th>Descripción:</th>
+                        <th>DescripciÃ³n:</th>
                         <td>{{ presupuesto.descripcion|default:"-" }}</td>
                     </tr>
                 </table>
@@ -34,6 +34,5 @@
         </div>
     </div>
 {% endblock %}
-
 
 

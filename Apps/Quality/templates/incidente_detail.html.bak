@@ -29,7 +29,7 @@
                                 <span class="badge bg-warning">{{ incidente.gravedad }}</span>
                             {% elif incidente.gravedad == "Alta" %}
                                 <span class="badge bg-danger">{{ incidente.gravedad }}</span>
-                            {% elif incidente.gravedad == "Crítica" %}
+                            {% elif incidente.gravedad == "CrÃ­tica" %}
                                 <span class="badge bg-dark">{{ incidente.gravedad }}</span>
                             {% else %}
                                 {{ incidente.gravedad|default:"-" }}
@@ -50,5 +50,4 @@
         </div>
     </div>
 {% endblock %}
-
 

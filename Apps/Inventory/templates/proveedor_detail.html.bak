@@ -51,7 +51,7 @@
                                 </td>
                                 <td>{{ pm.id_material.unidad }}</td>
                                 <td>Q{{ pm.precio_unitario|floatformat:2|intcomma|default:"-" }}</td>
-                                <td>{{ pm.tiempo_entrega|default:"-" }} días</td>
+                                <td>{{ pm.tiempo_entrega|default:"-" }} dÃ­as</td>
                                 <td>
                                     <a href="{% url 'material_detail' pm.id_material.id_material %}" class="btn btn-sm btn-info">
                                         <i class="bx bx-show"></i>
@@ -71,6 +71,5 @@
         </div>
     </div>
 {% endblock %}
-
 
 

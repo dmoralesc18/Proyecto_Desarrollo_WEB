@@ -1,4 +1,4 @@
-﻿from django.contrib import messages
+from django.contrib import messages
 from django.shortcuts import redirect
 
 
@@ -45,4 +45,3 @@ class AdminOrStaffMixin:
             return super().dispatch(request, *args, **kwargs)
         messages.error(request, 'No tiene permisos para acceder a esta página.')
         return redirect('homeapp')
-

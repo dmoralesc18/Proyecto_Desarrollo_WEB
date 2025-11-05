@@ -9,7 +9,7 @@
         <div class="d-flex align-items-end row">
           <div class="col-sm-7">
             <div class="card-body">
-              <h3 class="card-title text-primary">Bienvenido al Sistema de Gestión</h3>
+              <h3 class="card-title text-primary">Bienvenido al Sistema de GestiÃ³n</h3>
               <p class="mb-0">Este es el <span class="fw-bold">panel</span> de control principal.</p>
             </div>
           </div>
@@ -31,8 +31,8 @@
 
   <div class="row mb-3">
     <div class="col-12">
-      <h5 class="mb-0">Resumen de páginas</h5>
-      <small class="text-muted">Accesos rápidos a los módulos</small>
+      <h5 class="mb-0">Resumen de pÃ¡ginas</h5>
+      <small class="text-muted">Accesos rÃ¡pidos a los mÃ³dulos</small>
     </div>
   </div>
 
@@ -66,7 +66,7 @@
               <h6 class="mb-0">Calidad</h6>
               <span class="badge bg-info ms-auto">{{ summary.quality.inspections }}</span>
             </div>
-            <small class="text-muted">Inspecciones y más</small>
+            <small class="text-muted">Inspecciones y mÃ¡s</small>
             <div class="mt-2 d-flex gap-2 flex-wrap">
               <span class="badge bg-label-danger">Incidentes: {{ summary.quality.incidents }}</span>
               <span class="badge bg-label-primary">Certificaciones: {{ summary.quality.certifications }}</span>
@@ -119,7 +119,7 @@
           <div class="w-100">
             <h6 class="mb-1">Documentos</h6>
             <div class="d-flex align-items-center mb-1">
-              <small class="text-muted">Gestión documental</small>
+              <small class="text-muted">GestiÃ³n documental</small>
               <span class="badge bg-warning text-dark ms-auto">{{ summary.documents.total }}</span>
             </div>
             <div class="mt-1 d-flex gap-2 flex-wrap">
@@ -206,7 +206,7 @@
           <div class="w-100">
             <h6 class="mb-1">Reportes</h6>
             <div class="d-flex align-items-center">
-              <small class="text-muted">Informes y analítica</small>
+              <small class="text-muted">Informes y analÃ­tica</small>
               <span class="badge bg-primary ms-auto">{{ summary.reports.total }}</span>
             </div>
           </div>
@@ -230,5 +230,4 @@
   </div>
 </div>
 {% endblock %}
-
 

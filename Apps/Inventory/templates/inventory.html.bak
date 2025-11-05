@@ -85,7 +85,7 @@
                             <tr>
                                 <th style="width: 10%;">ID</th>
                                 <th style="width: 35%;">PROYECTO</th>
-                                <th style="width: 30%;">UBICACIÓN</th>
+                                <th style="width: 30%;">UBICACIÃ“N</th>
                                 <th style="width: 25%;">ACCIONES</th>
                             </tr>
                         </thead>
@@ -183,5 +183,4 @@
         </div>
     </div>
 {% endblock %}
-
 
