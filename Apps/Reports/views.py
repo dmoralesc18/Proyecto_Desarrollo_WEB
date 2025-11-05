@@ -4,6 +4,8 @@ from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from django.db.models import Value, DecimalField, Q, F
 from django.utils import timezone
+from django.db.utils import OperationalError, ProgrammingError
+from django.contrib import messages
 
 from Apps.Finance.models import Factura, Pago
 from Apps.Projects.models import Proyecto, Presupuesto
@@ -18,8 +20,29 @@ class ReportsView(AdminOrStaffMixin, TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         decimal_zero = Value(0, output_field=DecimalField(max_digits=14, decimal_places=2))
+        # Guardar si no hay tablas todavía
+        try:
+            _ = Proyecto.objects.count() + Presupuesto.objects.count() + Factura.objects.count() + Pago.objects.count()
+            _ = Inspeccion.objects.count() + Certificacion.objects.count()
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Reportes: base de datos sin tablas. Ejecuta migrate y sync_sqlite.')
+            today = timezone.now().date()
+            next_30 = today + timezone.timedelta(days=30)
+            context.update({
+                'rep_total_facturado': 0,
+                'rep_total_pagado': 0,
+                'rep_total_pendiente': 0,
+                'rep_proyectos_count': 0,
+                'rep_presupuesto_total': 0,
+                'rep_inspecciones_cumple': 0,
+                'rep_inspecciones_no_cumple': 0,
+                'rep_certificaciones_proximas': 0,
+                'rep_certificaciones_vencidas': 0,
+                'today': today,
+                'next_30': next_30,
+            })
+            return context
 
         # Finanzas (globales)
         total_facturado = Factura.objects.aggregate(

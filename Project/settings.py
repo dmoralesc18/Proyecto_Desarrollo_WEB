@@ -124,6 +124,13 @@ else:
         }
     }
 
+# Gestionar modelos (crear tablas) cuando se usa SQLite por defecto
+# Puedes forzarlo con la variable de entorno DJANGO_MANAGED_MODELS=true/false
+DJANGO_MANAGED_MODELS = os.environ.get(
+    'DJANGO_MANAGED_MODELS',
+    'true' if not DATABASE_URL else 'false'
+).lower() in ('1', 'true', 'yes')
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 

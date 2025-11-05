@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from Apps.Projects.models import Proyecto
 
 
@@ -13,7 +14,7 @@ class MaquinariaEquipo(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'maquinaria_equipo'
     
     def __str__(self):
@@ -31,7 +32,7 @@ class Alquiler(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'alquiler'
     
     def __str__(self):

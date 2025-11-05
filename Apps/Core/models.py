@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from Apps.Projects.models import Proyecto
 
 # Create your models here.
@@ -13,7 +14,7 @@ class Usuario(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'usuario'
 
 class UsuarioProyecto(models.Model):
@@ -22,6 +23,6 @@ class UsuarioProyecto(models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'usuario_proyecto'
         unique_together = (('id_usuario', 'id_proyecto'),)

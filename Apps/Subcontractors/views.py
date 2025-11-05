@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.utils import OperationalError, ProgrammingError
 from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from Apps.Subcontractors.models import Subcontratista, Contrato
 from .forms import SubcontratistaForm, ContratoForm
@@ -16,9 +17,21 @@ class SubcontractorsView(AdminOrStaffMixin, ListView):
     template_name = 'subcontractors.html'
     context_object_name = 'subcontratistas'
     
+    def get_queryset(self):
+        qs = Subcontratista.objects.all()
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Tablas de Subcontratistas no existen aún en SQLite.')
+            return Subcontratista.objects.none()
+        return qs
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['contratos'] = Contrato.objects.all()
+        try:
+            context['contratos'] = Contrato.objects.all()
+        except (OperationalError, ProgrammingError):
+            context['contratos'] = Contrato.objects.none()
         return context
 
 class SubcontractorDetailView(AdminOrStaffMixin, DetailView):

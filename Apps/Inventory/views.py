@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.utils import OperationalError, ProgrammingError
 from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from Apps.Inventory.models import Material, Inventario, InventarioMaterial, Proveedor, ProveedorMaterial
 from .forms import MaterialForm, InventarioForm, InventarioMaterialForm, ProveedorForm, ProveedorMaterialForm
@@ -16,10 +17,25 @@ class InventoryView(AdminOrStaffMixin, ListView):
     template_name = 'inventory.html'
     context_object_name = 'materiales'
     
+    def get_queryset(self):
+        qs = Material.objects.all()
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'La base de datos no tiene tablas de Inventario aún. Ejecuta migrate y sync_sqlite.')
+            return Material.objects.none()
+        return qs
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['inventarios'] = Inventario.objects.all()
-        context['proveedores'] = Proveedor.objects.all()
+        try:
+            context['inventarios'] = Inventario.objects.all()
+        except (OperationalError, ProgrammingError):
+            context['inventarios'] = Inventario.objects.none()
+        try:
+            context['proveedores'] = Proveedor.objects.all()
+        except (OperationalError, ProgrammingError):
+            context['proveedores'] = Proveedor.objects.none()
         return context
 
 

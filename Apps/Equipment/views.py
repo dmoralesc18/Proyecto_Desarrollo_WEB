@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.utils import OperationalError, ProgrammingError
 from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from Apps.Equipment.models import MaquinariaEquipo, Alquiler
 from .forms import MaquinariaEquipoForm, AlquilerForm
@@ -16,9 +17,21 @@ class EquipmentView(AdminOrStaffMixin, ListView):
     template_name = 'equipment.html'
     context_object_name = 'equipos'
     
+    def get_queryset(self):
+        qs = MaquinariaEquipo.objects.all()
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Tablas de equipos no existen en la BD local.')
+            return MaquinariaEquipo.objects.none()
+        return qs
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['alquileres'] = Alquiler.objects.all()
+        try:
+            context['alquileres'] = Alquiler.objects.all()
+        except (OperationalError, ProgrammingError):
+            context['alquileres'] = Alquiler.objects.none()
         return context
 
 class EquipmentDetailView(AdminOrStaffMixin, DetailView):

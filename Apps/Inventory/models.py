@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from Apps.Projects.models import Proyecto
 
 
@@ -10,7 +11,7 @@ class Material(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'material'
 
     def __str__(self):
@@ -25,7 +26,7 @@ class Inventario(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'inventario'
 
     def __str__(self):
@@ -40,7 +41,7 @@ class InventarioMaterial(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'inventario_material'
         unique_together = (('id_inventario', 'id_material'),)
 
@@ -56,7 +57,7 @@ class Proveedor(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'proveedor'
 
     def __str__(self):
@@ -72,7 +73,7 @@ class ProveedorMaterial(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'proveedor_material'
         unique_together = (('id_proveedor', 'id_material'),)
 

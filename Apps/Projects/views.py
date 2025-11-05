@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.utils import OperationalError, ProgrammingError
 from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from Apps.Projects.models import Proyecto, Presupuesto
 from .forms import ProyectoForm, PresupuestoForm
@@ -11,6 +12,19 @@ class ProjectsView(ListView):
     model = Proyecto
     template_name = 'projects.html'
     context_object_name = 'proyectos'
+    
+    def get_queryset(self):
+        qs = Proyecto.objects.all()
+        try:
+            # Fuerza una consulta para detectar esquemas faltantes en dev
+            _ = qs[:1]
+            list(_)  # evalúa el queryset de forma segura
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'La base de datos no tiene la tabla de proyectos. Ejecuta las migraciones o usa la BD de producción.')
+            return Proyecto.objects.none()
+        except Exception:
+            return Proyecto.objects.none()
+        return qs
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

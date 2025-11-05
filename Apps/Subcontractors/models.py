@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from Apps.Projects.models import Proyecto
 
 
@@ -13,7 +14,7 @@ class Subcontratista(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'subcontratista'
     
     def __str__(self):
@@ -30,7 +31,7 @@ class Contrato(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'contrato'
 
     def __str__(self):

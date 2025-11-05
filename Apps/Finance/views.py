@@ -2,6 +2,8 @@ from django.views.generic import TemplateView, CreateView, ListView, UpdateView,
 from Apps.Core.permissions import AdminOnlyMixin
 from django.db.models import Sum, F, Value, DecimalField, Q
 from django.db.models.functions import Coalesce
+from django.db.utils import OperationalError, ProgrammingError
+from django.contrib import messages
 
 from Apps.Finance.models import Factura, Pago
 from Apps.Projects.models import Proyecto
@@ -16,6 +18,23 @@ class FinanceView(AdminOnlyMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         decimal_zero = Value(0, output_field=DecimalField(max_digits=12, decimal_places=2))
+        # Early guard: si las tablas no existen aún en SQLite, evita romper y muestra aviso
+        try:
+            # Fuerza consultas mínimas
+            _ = Proyecto.objects.count() + Factura.objects.count() + Pago.objects.count()
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Finanzas: base de datos sin tablas. Ejecuta migrate y sync_sqlite.')
+            context.update({
+                'projects': [],
+                'selected_project': None,
+                'selected_status': None,
+                'date_type': 'emision',
+                'date_from': None,
+                'date_to': None,
+                'invoices_pending': [],
+                'summary_projects': [],
+            })
+            return context
 
         # Filtros
         projects_qs = Proyecto.objects.all().order_by('nombre_proyecto')
@@ -286,6 +305,14 @@ class FacturaListView(AdminOnlyMixin, ListView):
     template_name = 'factura_list.html'
     context_object_name = 'facturas'
     paginate_by = 20
+    def get_queryset(self):
+        qs = Factura.objects.all()
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Finanzas: la tabla de facturas no existe aún.')
+            return Factura.objects.none()
+        return qs
 
 
 class FacturaUpdateView(AdminOnlyMixin, UpdateView):
@@ -323,6 +350,14 @@ class PagoListView(AdminOnlyMixin, ListView):
     template_name = 'pago_list.html'
     context_object_name = 'pagos'
     paginate_by = 20
+    def get_queryset(self):
+        qs = Pago.objects.all()
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Finanzas: la tabla de pagos no existe aún.')
+            return Pago.objects.none()
+        return qs
 
 
 class PagoUpdateView(AdminOnlyMixin, UpdateView):

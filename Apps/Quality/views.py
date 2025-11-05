@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.utils import OperationalError, ProgrammingError
 from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -11,10 +12,17 @@ class QualityView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_inspecciones'] = Inspeccion.objects.count()
-        context['total_incidentes'] = Incidente.objects.count()
-        context['total_certificaciones'] = Certificacion.objects.count()
-        context['total_pruebas'] = PruebaCalidad.objects.count()
+        try:
+            context['total_inspecciones'] = Inspeccion.objects.count()
+            context['total_incidentes'] = Incidente.objects.count()
+            context['total_certificaciones'] = Certificacion.objects.count()
+            context['total_pruebas'] = PruebaCalidad.objects.count()
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Faltan tablas de Calidad. Ejecuta migrate y sync_sqlite.')
+            context['total_inspecciones'] = 0
+            context['total_incidentes'] = 0
+            context['total_certificaciones'] = 0
+            context['total_pruebas'] = 0
         return context
 
 # ==================== INSPECCIONES ====================
@@ -23,6 +31,14 @@ class InspeccionListView(AdminOrStaffMixin, ListView):
     template_name = 'inspeccion_list.html'
     context_object_name = 'inspecciones'
     ordering = ['-fecha']
+    def get_queryset(self):
+        qs = Inspeccion.objects.all().order_by('-fecha')
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Tabla de inspecciones inexistente en la BD local.')
+            return Inspeccion.objects.none()
+        return qs
 
 class InspeccionDetailView(AdminOrStaffMixin, DetailView):
     model = Inspeccion
@@ -80,6 +96,14 @@ class IncidenteListView(AdminOrStaffMixin, ListView):
     template_name = 'incidente_list.html'
     context_object_name = 'incidentes'
     ordering = ['-fecha']
+    def get_queryset(self):
+        qs = Incidente.objects.all().order_by('-fecha')
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Tabla de incidentes inexistente en la BD local.')
+            return Incidente.objects.none()
+        return qs
 
 class IncidenteDetailView(AdminOrStaffMixin, DetailView):
     model = Incidente
@@ -137,6 +161,14 @@ class CertificacionListView(AdminOrStaffMixin, ListView):
     template_name = 'certificacion_list.html'
     context_object_name = 'certificaciones'
     ordering = ['-fecha_emision']
+    def get_queryset(self):
+        qs = Certificacion.objects.all().order_by('-fecha_emision')
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Tabla de certificaciones inexistente en la BD local.')
+            return Certificacion.objects.none()
+        return qs
 
 class CertificacionDetailView(AdminOrStaffMixin, DetailView):
     model = Certificacion
@@ -194,6 +226,14 @@ class PruebaCalidadListView(AdminOrStaffMixin, ListView):
     template_name = 'prueba_list.html'
     context_object_name = 'pruebas'
     ordering = ['-fecha']
+    def get_queryset(self):
+        qs = PruebaCalidad.objects.all().order_by('-fecha')
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Tabla de pruebas de calidad inexistente en la BD local.')
+            return PruebaCalidad.objects.none()
+        return qs
 
 class PruebaCalidadDetailView(AdminOrStaffMixin, DetailView):
     model = PruebaCalidad

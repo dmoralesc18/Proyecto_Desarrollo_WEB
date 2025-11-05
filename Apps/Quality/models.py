@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from Apps.Projects.models import Proyecto
 
 # Create your models here.
@@ -12,7 +13,7 @@ class Inspeccion(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'inspeccion'
 
 class Incidente(models.Model):
@@ -25,7 +26,7 @@ class Incidente(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'incidente'
 
 class Certificacion(models.Model):
@@ -38,7 +39,7 @@ class Certificacion(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'certificacion'
 
 class PruebaCalidad(models.Model):
@@ -51,5 +52,5 @@ class PruebaCalidad(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = getattr(settings, 'DJANGO_MANAGED_MODELS', False)
         db_table = 'prueba_calidad'

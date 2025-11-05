@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.utils import OperationalError, ProgrammingError
 from Apps.Core.permissions import AdminOnlyMixin, AdminOrStaffMixin
 from .models import DocumentoTecnico
 from .forms import DocumentoTecnicoForm
@@ -12,6 +13,14 @@ class DocumentsView(ListView):
     template_name = 'documents.html'
     context_object_name = 'documentos'
     ordering = ['-fecha_carga']
+    def get_queryset(self):
+        qs = DocumentoTecnico.objects.all().order_by('-fecha_carga')
+        try:
+            list(qs[:1])
+        except (OperationalError, ProgrammingError):
+            messages.warning(self.request, 'Tabla de documentos técnica no existe en SQLite local.')
+            return DocumentoTecnico.objects.none()
+        return qs
 
 class DocumentDetailView(DetailView):
     model = DocumentoTecnico
