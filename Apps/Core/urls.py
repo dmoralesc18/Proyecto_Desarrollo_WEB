@@ -9,6 +9,7 @@ from .views import (
     user_create_view,
     user_edit_view,
     user_delete_view,
+    first_user_setup_view,
 )
 
 app_name = 'core'
@@ -16,6 +17,8 @@ app_name = 'core'
 urlpatterns = [
     path('support/', SupportCreateView.as_view(), name='support'),
     path('support/success/', SupportSuccessView.as_view(), name='support_success'),
+    # First run setup (create initial superuser)
+    path('setup/first-user/', first_user_setup_view, name='first_user_setup'),
     # Auth
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),

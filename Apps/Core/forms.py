@@ -68,6 +68,34 @@ class UserForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         label='Nombre'
     )
+
+
+class FirstUserSetupForm(forms.Form):
+    nombre = forms.CharField(
+        max_length=255,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre completo'}),
+        label='Nombre'
+    )
+    correo = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'admin@tu-dominio.com'}),
+        label='Correo'
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label='Contraseña'
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label='Confirmar contraseña'
+    )
+
+    def clean(self):
+        cleaned = super().clean()
+        p1 = cleaned.get('password')
+        p2 = cleaned.get('password2')
+        if p1 and p2 and p1 != p2:
+            self.add_error('password2', 'Las contraseñas no coinciden.')
+        return cleaned
     correo = forms.EmailField(
         widget=forms.EmailInput(attrs={'class': 'form-control'}),
         label='Correo'

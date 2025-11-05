@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import SoporteForm, LoginForm, ProfileForm, UserForm
+from .forms import SoporteForm, LoginForm, ProfileForm, UserForm, FirstUserSetupForm
 from .models import Usuario
 
 # --- Simple auth helpers (session-based) ---
@@ -93,7 +93,8 @@ def login_view(request):
             messages.error(request, 'Credenciales inválidas.')
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    show_first_setup = not User.objects.filter(is_superuser=True).exists()
+    return render(request, 'login.html', {'form': form, 'show_first_setup': show_first_setup})
 
 
 def logout_view(request):
@@ -206,3 +207,34 @@ def user_delete_view(request, pk: int):
         messages.success(request, 'Usuario eliminado.')
         return redirect('core:users')
     return render(request, 'user_delete.html', {'usuario': u})
+
+
+def first_user_setup_view(request):
+    # Si ya existe un superusuario, redirigir a login
+    if User.objects.filter(is_superuser=True).exists():
+        return redirect('core:login')
+
+    if request.method == 'POST':
+        form = FirstUserSetupForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['correo']
+            nombre = form.cleaned_data['nombre']
+            password = form.cleaned_data['password']
+
+            u = User.objects.create_user(username=email, email=email)
+            u.first_name = nombre
+            u.is_staff = True
+            u.is_superuser = True
+            u.set_password(password)
+            u.save()
+
+            messages.success(request, 'Usuario administrador creado correctamente.')
+            user = authenticate(request, username=email, password=password)
+            if user is not None:
+                auth_login(request, user)
+                return redirect('homeapp')
+            return redirect('core:login')
+    else:
+        form = FirstUserSetupForm()
+
+    return render(request, 'first_user_setup.html', {'form': form})
