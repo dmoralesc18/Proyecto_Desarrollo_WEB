@@ -8,5 +8,5 @@ mkdir -p staticfiles
 
 python manage.py collectstatic --noinput --clear
 
-python manage.py  makemigrations
+
 python manage.py migrate --noinput 
